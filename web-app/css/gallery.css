@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+.iconDiv {
+	height : 90px;
+	width: 90px;
+	float: left;
+	cursor: pointer;
+}
+.iconDivInner {
+	margin: 4px;
+	padding: 2px;
+}
+.iconText {
+	overflow: hidden;
+}
+.iconDivTooltip {
+	display: none;
+}
