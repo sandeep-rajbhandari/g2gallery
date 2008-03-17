@@ -1,3 +1,4 @@
+
 class BootStrap {
 	AuthenticateService authenticateService
 
@@ -6,7 +7,7 @@ class BootStrap {
          		if (file.isFile())
          			new Photo(name : file.name, description : file.name, url : file.name).save()
 
-     	}
+     	 }
 
         def adminRole = new Role(authority : 'ROLE_ADMIN', description : 'administrater')
         adminRole.save()

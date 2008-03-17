@@ -13,6 +13,9 @@ class PhotoController {
         [ photoList: Photo.list( params ) ]
     }
 
+    def list2 =  {
+        list()
+    }
     def show = {
     	println params
         def photo = Photo.get( params.id )
