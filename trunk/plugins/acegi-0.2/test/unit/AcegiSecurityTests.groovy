@@ -34,7 +34,7 @@ class AcegiSecurityTests extends GroovyTestCase {
 	}
 	
 	void testAuthenticationWithAuthority() {
-		def authority = new Authority(authority:'ROLE_USER')
+		def authority = new Role(authority:'ROLE_USER')
 		authority.addToUsers(user)
 		authority.save()
 		def authtoken = daoAuthenticationProvider.authenticate(auth)
