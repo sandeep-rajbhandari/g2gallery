@@ -2,6 +2,9 @@ class Photo {
     String name
 	String description
 
+	int width
+	int height
+
 	String url
 
 	static constraints = {
