@@ -14,26 +14,81 @@
         <title>Photo List</title>
         <script type="text/javascript" src="http://slideshow.triptracker.net/slide.js"></script>
         <g:javascript>
-        	var photoViewer = new PhotoViewer();
-        	<g:each in="${photoList}" var="photo">
-        		photoViewer.add("${createLink(action : 'showPhoto', params : [url : photo.url])}", "${photo.description}");
-        	</g:each>
+        	var photoViewer;
+
+        	function init() {
+	        	photoViewer = new PhotoViewer();
+	        	<g:each in="${photoList}" var="photo">
+	        		photoViewer.add("${createLink(action : 'showPhoto', params : [url : photo.url])}", "${photo.description}");
+	        		new Tip("iconDiv${photo.id}", $("iconDiv${photo.id}Tooltip").innerHTML, {className : 'darkTip', effect : 'appear'});
+	        	</g:each>
+
+
+	        	$('content').setStyle({height: document.getSize().height - $('logoDiv').getHeight() - $('menuDiv').getHeight() -7 /* ???*/});
+        	}
+
+			document.getSize = function() {
+			    var xScroll = 0;
+			    var yScroll = 0;
+
+			    if (window.innerHeight && window.scrollMaxY) {
+			        xScroll = window.innerWidth + window.scrollMaxX;
+			        yScroll = window.innerHeight + window.scrollMaxY;
+
+			    } else if (document.body.scrollHeight > document.body.offsetHeight) { // all but Explorer Mac
+			        xScroll = document.body.scrollWidth;
+			        yScroll = document.body.scrollHeight;
+
+			    } else { // Explorer Mac...would also work in Explorer 6 Strict,Mozilla and Safari
+			        xScroll = document.body.offsetWidth;
+			        yScroll = document.body.offsetHeight;
+			    }
+
+			    var windowWidth, windowHeight;
+
+			    if (self.innerHeight) { // all except Explorer
+			        windowWidth = (document.documentElement.clientWidth) ?
+					document.documentElement.clientWidth : self.innerWidth;
+					        windowHeight = self.innerHeight;
+
+			    } else if (document.documentElement &&	document.documentElement.clientHeight) { // Explorer 6 Strict Mode
+			        windowWidth = document.documentElement.clientWidth;
+			        windowHeight = document.documentElement.clientHeight;
+
+			    } else if (document.body) { // other Explorers
+			        windowWidth = document.body.clientWidth;
+			        windowHeight = document.body.clientHeight;
+			    }
+
+			    // for small pages with total height less then height of the viewport
+			    var docHeight = (yScroll < windowHeight) ? windowHeight : yScroll;
+
+			    // for small pages with total width less then width of the viewport
+			    var docWidth = (xScroll < windowWidth) ? xScroll : windowWidth;
+
+			    // return arrayPageSize;
+			    return {"width": docWidth, "height": docHeight};
+
+			}
+
+        	new Event.observe(window, 'load', init);
         </g:javascript>
     </head>
 
-    <body>
-        <div class="nav">
+    <body onload="init();">
+        <div class="nav" id="menuDiv">
             <span class="menuButton"><a class="home" href="${createLinkTo(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="create" action="create">New Photo</g:link></span>
             <span class="menuButton"><a href="javascript:void(photoViewer.show(0))">Slide Show</a></span>
         </div>
-        <div class="body">
+        <div class="bordered" id="content">
+
             <h1>Photo List</h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
 
-            <div class="bordered" style="float: left; width: 300px;">
+            <div class="bordered left">
                 <div class="list">
                     <g:each in="${photoList}" status="i" var="photo">
                          <div class="iconDiv" id="iconDiv${photo.id}">
@@ -44,12 +99,10 @@
                         <div class="iconDivTooltip" id="iconDiv${photo.id}Tooltip">
                             <div>Name : ${photo.name}</div>
                             <div>Description : ${photo.description}</div>
+                            <div>Dimension : ${photo.width}x${photo.height}</div>
                             <div>Url : ${photo.url}</div>
                             <div>Album : ${photo.album?.name}</div>
                         </div>
-                        <g:javascript>
-                        new Tip("iconDiv${photo.id}", $("iconDiv${photo.id}Tooltip").innerHTML, {className : 'darkTip', effect : 'appear'});
-                        </g:javascript>
                      </g:each>
                      <div style="clear: both;"></div>
 
@@ -62,10 +115,9 @@
                 </g:if>
             </div>
 
-            <div class="bordered" style="float: left; width: 100%; height: 100%">
-                <div id="photoShowDiv"></div>
+            <div class="bordered right">
+                <div id="photoShowDiv">&nbsp;</div>
             </div>
-
         </div>
     </body>
 </html>
