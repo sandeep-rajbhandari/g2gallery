@@ -1,3 +1,4 @@
+import javax.imageio.*
 
 class BootStrap {
 	AuthenticateService authenticateService
@@ -5,7 +6,7 @@ class BootStrap {
     def init = { servletContext ->
         new File(servletContext.getRealPath("/_photos")).listFiles().each {file ->
          		if (file.isFile())
-         			new Photo(name : file.name, description : file.name, url : file.name).save()
+         			createPhoto(file)
 
      	 }
 
@@ -32,4 +33,9 @@ class BootStrap {
      }
      def destroy = {
      }
+
+	def createPhoto = {file ->
+		def buffImage = ImageIO.read(file)
+		new Photo(name : file.name, description : file.name, url : file.name, width : buffImage.width, height : buffImage.height).save()
+	}
 }

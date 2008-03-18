@@ -1,21 +1,23 @@
-import org.springframework.web.multipart.MultipartHttpServletRequest
+import javax.imageio.ImageIOimport org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
-            
+import javax.imageio.*
+
 class PhotoController {
-    
+
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
     def allowedMethods = [delete:'POST', save:'POST', update:'POST']
 
     def list = {
-        if(!params.max) params.max = 30
+        if(!params.max) params.max = 10
         [ photoList: Photo.list( params ) ]
     }
 
     def list2 =  {
         list()
     }
+
     def show = {
     	println params
         def photo = Photo.get( params.id )
@@ -25,6 +27,9 @@ class PhotoController {
             redirect(action:list)
         }
         else { return [ photo : photo ] }
+    }
+    def show2 = {
+    	show()
     }
 
     def showPhoto = {
@@ -105,7 +110,8 @@ class PhotoController {
 
     	def photoDir = getPhotoDir();
 
-    	FileOutputStream output = new FileOutputStream(new File(photoDir, file.originalFilename))
+    	def outputFile = new File(photoDir, file.originalFilename)
+    	FileOutputStream output = new FileOutputStream(outputFile)
     	InputStream input = file.inputStream
     	byte[] buffer = new byte[2048]
     	int read = input.read(buffer)
@@ -117,8 +123,9 @@ class PhotoController {
     	output.close()
     	input.close()
 
+    	def bufferedImage = ImageIO.read(outputFile)
         def photo = new Photo()
-    	photo.properties = params
+    	photo.properties = params    	photo.width = bufferedImage.width    	photo.height = bufferedImage.height
     	photo.url = file.originalFilename
     	if (!photo.name) {
     		photo.name = photo.url[0..<photo.url.lastIndexOf('.')]
