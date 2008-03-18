@@ -25,10 +25,10 @@
 	        	</g:each>
 
 
-	        	$('content').setStyle({height: document.getSize().height - $('logoDiv').getHeight() - $('menuDiv').getHeight() -7 /* ???*/});
+	        	//$('content').setStyle({height: document.getSize().height - $('logoDiv').getHeight() - $('menuDiv').getHeight() -7 /* ???*/});
         	}
 
-			document.getSize = function() {
+			/*document.getSize = function() {
 			    var xScroll = 0;
 			    var yScroll = 0;
 
@@ -70,7 +70,7 @@
 			    // return arrayPageSize;
 			    return {"width": docWidth, "height": docHeight};
 
-			}
+			}*/
 
         	new Event.observe(window, 'load', init);
         </g:javascript>
