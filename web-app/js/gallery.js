@@ -12,14 +12,12 @@ function showPhotoInfos2(id) {
 		onSuccess : function (transport) {
 			var photoShowDiv = $('photoShowDiv');
 			var photo = eval('(' + transport.responseText + ')');
-			alert(photo);
 			photoView(photo, photoShowDiv);
 		}
 	});
 }
 
 function photoView(photo, container) {
-	alert(container.getWidth());
-	alert(container.getHeight());
-	container.update(photo);
+	var img = "<img src='" + CONTEXT_PATH + "/photo/showPhoto?url=" + photo.url + "'/>";
+	container.update(img);
 }
