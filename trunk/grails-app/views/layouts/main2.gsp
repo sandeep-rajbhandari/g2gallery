@@ -17,12 +17,15 @@
         </g:javascript>
         <g:javascript library="application" />
         <g:javascript library="gallery" />
+        <g:javascript library="layout_manager" />
     </head>
     <body>
+    	<div class="lm_container">
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="Spinner" />
         </div>
-        <div><img src="${createLinkTo(dir:'images',file:'grails_logo.jpg')}" alt="Grails" /></div>
+        <div class="logo lm_top" id="logoDiv"><img src="${createLinkTo(dir:'images',file:'grails_logo.jpg')}" alt="Grails" /></div>
         <g:layoutBody />
+        </div>
     </body>
 </html>
