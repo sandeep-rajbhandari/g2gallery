@@ -1,7 +1,7 @@
 import javax.imageio.ImageIOimport org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import javax.imageio.*
-
+import grails.converters.*
 class PhotoController {
 
     def index = { redirect(action:list,params:params) }
@@ -29,7 +29,7 @@ class PhotoController {
         else { return [ photo : photo ] }
     }
     def show2 = {
-    	show()
+    	render(show() as JSON)
     }
 
     def showPhoto = {
