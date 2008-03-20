@@ -11,7 +11,7 @@ function showPhotoInfos2(id) {
 	new Ajax.Request(showPhotoUrl, {
 		onSuccess : function (transport) {
 			var photoShowDiv = $('photoShowDiv');
-			var photo = eval('(' + transport.responseText + ')');
+			var photo = eval('(' + transport.responseText + ')').photo;
 			photoView(photo, photoShowDiv);
 		}
 	});
