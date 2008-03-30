@@ -1,8 +1,10 @@
-import javax.imageio.ImageIOimport org.springframework.web.multipart.MultipartHttpServletRequest
+import grails.converters.JSON
+import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
-import javax.imageio.*
-import grails.converters.*
+
 class PhotoController {
+
+    PhotoIOService photoIOService
 
     def index = { redirect(action:list,params:params) }
 
@@ -33,17 +35,13 @@ class PhotoController {
     }
 
     def showPhoto = {
-    	response.outputStream.withStream {out ->
-    		new File(servletContext.getRealPath("/_photos") + "/" + params.url).eachByte {b ->
-    			out.write(b)
-    		}
-    	}
+        response.outputStream << photoIOService.loadPhotoStream(params.url)
     }
 
     def delete = {
         def photo = Photo.get( params.id )
         if(photo) {
-        	if (new File(getPhotoDir(), photo.url).delete())  photo.delete()
+        	if (photoIOService.deletePhotoStream(photo.url))  photo.delete()
 
             flash.message = "Photo ${params.id} deleted"
             redirect(action:list)
@@ -96,36 +94,21 @@ class PhotoController {
         return ['photo':photo]
     }
 
-    def getPhotoDir = {
-    	def photoDir = new File(servletContext.getRealPath("/_photos"))
-        if (!photoDir.exists()) {
-        	photoDir.mkdir()
-        }
-    	photoDir
-    }
-
-    def save = {
-    	MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request
+    def savePhotoStream = {
+        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request
     	CommonsMultipartFile file = (CommonsMultipartFile)multiRequest.getFile("url")
 
-    	def photoDir = getPhotoDir();
+        photoIOService.savePhotoStream(file.inputStream, file.originalFilename)
+    }
+    
+    def save = {
+    	def bufferedImage = savePhotoStream()
 
-    	def outputFile = new File(photoDir, file.originalFilename)
-    	FileOutputStream output = new FileOutputStream(outputFile)
-    	InputStream input = file.inputStream
-    	byte[] buffer = new byte[2048]
-    	int read = input.read(buffer)
-    	while (read != -1) {
-    		output.write(buffer, 0, read)
-    		read = input.read(buffer)
-    	}
-
-    	output.close()
-    	input.close()
-
-    	def bufferedImage = ImageIO.read(outputFile)
         def photo = new Photo()
-    	photo.properties = params    	photo.width = bufferedImage.width    	photo.height = bufferedImage.height
+    	photo.properties = params
+
+    	photo.width = bufferedImage.width
+    	photo.height = bufferedImage.height
     	photo.url = file.originalFilename
     	if (!photo.name) {
     		photo.name = photo.url[0..<photo.url.lastIndexOf('.')]
