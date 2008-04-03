@@ -4,7 +4,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class PhotoController {
 
-    PhotoIOService photoIOService
+    def photoIOService
 
     def index = { redirect(action:list,params:params) }
 
@@ -35,13 +35,13 @@ class PhotoController {
     }
 
     def showPhoto = {
-        response.outputStream << photoIOService.loadPhotoStream(params.url)
+        response.outputStream << photoIOService.load(params.url)
     }
 
     def delete = {
         def photo = Photo.get( params.id )
         if(photo) {
-        	if (photoIOService.deletePhotoStream(photo.url))  photo.delete()
+        	if (photoIOService.delete(photo.url))  photo.delete()
 
             flash.message = "Photo ${params.id} deleted"
             redirect(action:list)
@@ -98,7 +98,7 @@ class PhotoController {
         MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request
     	CommonsMultipartFile file = (CommonsMultipartFile)multiRequest.getFile("url")
 
-        photoIOService.savePhotoStream(file.inputStream, file.originalFilename)
+        photoIOService.save(file.inputStream, file.originalFilename)
     }
     
     def save = {

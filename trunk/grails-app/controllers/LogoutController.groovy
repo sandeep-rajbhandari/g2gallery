@@ -5,7 +5,7 @@
 class LogoutController {
 
   def index = {
-    /* ---- put your codes here ----  */
+    /* ---- save your codes here ----  */
     
     redirect(uri:"/j_acegi_logout")
     render(text:"")

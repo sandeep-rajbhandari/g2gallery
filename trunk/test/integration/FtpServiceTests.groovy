@@ -2,12 +2,12 @@ class FtpServiceTests extends GroovyTestCase {
     FtpService ftpService
 
     void testPutGetAndRemove() {
-        assertNull ftpService.get("test")
+        assertNull ftpService.load('test')
 
-        ftpService.put new BufferedInputStream(new ByteArrayInputStream("ce ci est un test".bytes)), "test"
+        ftpService.save new ByteArrayInputStream('ce ci est un test'.bytes), 'test'
 
-        assertEquals "ce ci est un test", ftpService.get("test").text
+        assertEquals 'ce ci est un test', ftpService.load('test').text
 
-        ftpService.remove "test"
+        ftpService.delete 'test'
     }
 }

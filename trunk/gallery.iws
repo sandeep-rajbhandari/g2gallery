@@ -16,12 +16,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/jakarta-oro-2.0.8.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/grails-app/services/FtpService.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/integration/FtpServiceTests.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/commons-net-1.4.1.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/PhotoIOService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/PhotoIOService.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugins/acegi-0.2/src/templates/controllers/LogoutController.groovy" afterPath="$PROJECT_DIR$/plugins/acegi-0.2/src/templates/controllers/LogoutController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/services/FtpService.groovy" afterPath="$PROJECT_DIR$/grails-app/services/FtpService.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gallery.iws" afterPath="$PROJECT_DIR$/gallery.iws" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/integration/PhotoIOServiceTests.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/LogoutController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/LogoutController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/grails-app/controllers/PhotoController.groovy" afterPath="$PROJECT_DIR$/grails-app/controllers/PhotoController.groovy" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/integration/FtpServiceTests.groovy" afterPath="$PROJECT_DIR$/test/integration/FtpServiceTests.groovy" />
     </list>
     <ignored path="gallery.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -92,36 +93,36 @@
       <file leaf-file-name="PhotoController.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/controllers/PhotoController.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="23" selection-start="218" selection-end="218" vertical-scroll-proportion="0.24285714">
+            <state line="6" column="18" selection-start="213" selection-end="213" vertical-scroll-proportion="0.22077923">
               <folding>
-                <marker date="1206899034215" expanded="true" signature="880:887" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="909:992" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1011:1383" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1074:1251" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1265:1377" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1400:1645" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1465:1577" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1591:1639" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1664:2250" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1727:2105" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="1880:2006" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="2024:2095" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="2119:2244" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="2269:2443" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="2751:3317" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="2940:3317" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="3002:3071" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="3119:3232" placeholder="{...}" />
-                <marker date="1206899034215" expanded="true" signature="3246:3311" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="869:876" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="898:970" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="989:1350" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1052:1218" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1232:1344" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1367:1612" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1432:1544" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1558:1606" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1631:2217" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1694:2072" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1847:1973" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="1991:2062" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="2086:2211" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="2236:2410" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="2707:3273" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="2896:3273" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="2958:3027" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="3075:3188" placeholder="{...}" />
+                <marker date="1207245601887" expanded="true" signature="3202:3267" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhotoIOService.groovy" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PhotoIOService.groovy" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/grails-app/services/PhotoIOService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="112" selection-start="778" selection-end="778" vertical-scroll-proportion="1.0530974">
+            <state line="13" column="8" selection-start="261" selection-end="261" vertical-scroll-proportion="0.41295546">
               <folding />
             </state>
           </provider>
@@ -130,7 +131,7 @@
       <file leaf-file-name="FtpService.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/grails-app/services/FtpService.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="6" selection-start="51" selection-end="51" vertical-scroll-proportion="0.07522124">
+            <state line="8" column="28" selection-start="196" selection-end="196" vertical-scroll-proportion="0.27530363">
               <folding />
             </state>
           </provider>
@@ -139,16 +140,7 @@
       <file leaf-file-name="FtpServiceTests.groovy" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/integration/FtpServiceTests.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="6" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PhotoIOServiceTests.groovy" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/integration/PhotoIOServiceTests.groovy">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="6" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
+            <state line="8" column="57" selection-start="293" selection-end="293" vertical-scroll-proportion="0.2943723">
               <folding />
             </state>
           </provider>
@@ -462,35 +454,6 @@
         <option name="Make" value="true" />
       </method>
     </tempConfiguration>
-    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <envs />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
     <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails Application">
       <module name="gallery" />
       <setting name="vmparams" value="" />
@@ -498,6 +461,26 @@
       <method>
         <option name="Make" value="true" />
       </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
       <module name="" />
@@ -528,6 +511,28 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <envs />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -539,19 +544,6 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
     </configuration>
     <configuration default="false" name="gallery" type="GrailsRunConfigurationType" factoryName="Grails Application">
       <module name="gallery" />
@@ -633,10 +625,10 @@
     <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32968536" order="8" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32968536" order="8" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="1" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32968536" order="1" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="2" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="14" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
@@ -648,13 +640,13 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
-      <window_info id="Grails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32831737" order="12" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1989683" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="11" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="5" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="13" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27222982" order="6" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27222982" order="6" />
+      <window_info id="Grails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32831737" order="12" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="4" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="0" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
@@ -669,7 +661,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="add PhotoIOService" />
+    <option name="LAST_COMMIT_MESSAGE" value="add FtpService" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -681,6 +673,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="add PhotoIOService" />
+    <MESSAGE value="add FtpService" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -721,13 +714,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/grails-app/views/photo/list.gsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="20" selection-start="583" selection-end="1209" vertical-scroll-proportion="1.235589">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/grails-app/views/photo/list2.gsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="42" selection-start="344" selection-end="344" vertical-scroll-proportion="0.044270832">
@@ -796,37 +782,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/controllers/PhotoController.groovy">
+    <entry file="file://$PROJECT_DIR$/test/integration/PhotoIOServiceTests.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="23" selection-start="218" selection-end="218" vertical-scroll-proportion="0.24285714">
-          <folding>
-            <marker date="1206899034215" expanded="true" signature="880:887" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="909:992" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1011:1383" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1074:1251" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1265:1377" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1400:1645" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1465:1577" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1591:1639" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1664:2250" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1727:2105" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="1880:2006" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="2024:2095" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="2119:2244" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="2269:2443" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="2751:3317" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="2940:3317" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="3002:3071" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="3119:3232" placeholder="{...}" />
-            <marker date="1206899034215" expanded="true" signature="3246:3311" placeholder="{...}" />
-          </folding>
+        <state line="0" column="6" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/PhotoIOService.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/LogoutController.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="112" selection-start="778" selection-end="778" vertical-scroll-proportion="1.0530974">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/controllers/PhotoController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="18" selection-start="213" selection-end="213" vertical-scroll-proportion="0.22077923">
+          <folding>
+            <marker date="1207245601887" expanded="true" signature="869:876" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="898:970" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="989:1350" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1052:1218" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1232:1344" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1367:1612" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1432:1544" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1558:1606" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1631:2217" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1694:2072" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1847:1973" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="1991:2062" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="2086:2211" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="2236:2410" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="2707:3273" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="2896:3273" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="2958:3027" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="3075:3188" placeholder="{...}" />
+            <marker date="1207245601887" expanded="true" signature="3202:3267" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -840,23 +833,23 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/grails-app/services/FtpService.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="6" selection-start="51" selection-end="51" vertical-scroll-proportion="0.07522124">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/integration/FtpServiceTests.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="6" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
+        <state line="8" column="57" selection-start="293" selection-end="293" vertical-scroll-proportion="0.2943723">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/integration/PhotoIOServiceTests.groovy">
+    <entry file="file://$PROJECT_DIR$/grails-app/services/FtpService.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="6" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
+        <state line="8" column="28" selection-start="196" selection-end="196" vertical-scroll-proportion="0.27530363">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grails-app/services/PhotoIOService.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="8" selection-start="261" selection-end="261" vertical-scroll-proportion="0.41295546">
           <folding />
         </state>
       </provider>
