@@ -4,20 +4,20 @@ class FtpService {
 
     boolean transactional = false
     
-    String server = "ftp server"
-    String username = "user name"
-    String passwd = "password"
+    String server = 'localhost'
+    String username = 'trungsi'
+    String passwd = 'trungsi'
 
-    String remoteBaseDir = "_photos"
-    def put(inputStream, fileName) {
+    String remoteBaseDir = '_photos'
+    def save(inputStream, fileName) {
         connect {ftp -> ftp.storeFile "${remoteBaseDir}/${fileName}", inputStream}
     }
 
-    def get(fileName) {
+    def load(fileName) {
         connect {ftp -> ftp.retrieveFileStream "${remoteBaseDir}/${fileName}"}
     }
 
-    def remove(fileName) {
+    def delete(fileName) {
         connect {ftp -> ftp.deleteFile "${remoteBaseDir}/${fileName}"}
     }
 

@@ -4,22 +4,15 @@ class PhotoIOService {
 
     boolean transactional = false
 
-    def savePhotoStream(inputStream, fileName) {
-    	def photoDir = getPhotoDir()
+    def ftpService
 
-    	def outputFile = new File(photoDir, fileName)
-    	FileOutputStream output = new FileOutputStream(outputFile)
+    boolean useFtp = true
 
-        InputStream input = inputStream
-    	byte[] buffer = new byte[2048]
-    	int read = input.read(buffer)
-    	while (read != -1) {
-    		output.write(buffer, 0, read)
-    		read = input.read(buffer)
-    	}
+    def save(inputStream, fileName) {
+    	def outputFile = newFile(fileName)
 
-    	output.close()
-        input.close()
+        FileOutputStream outputStream = new FileOutputStream(outputFile)
+        outputStream << inputStream
 
         ImageIO.read(outputFile)
     }
@@ -32,10 +25,14 @@ class PhotoIOService {
     	photoDir
     }
 
-    def deletePhotoStream(fileName) {
-        new File(getPhotoDir(), fileName).delete()
+    def delete(fileName) {
+        newFile(fileName).delete()
     }
-    def loadPhotoStream(fileName) {
-        new File(getPhotoDir(), fileName).newInputStream()
+    def load(fileName) {
+        newFile(fileName).newInputStream()
+    }
+
+    private File newFile(fileName) {
+        return new File(photoDir, fileName)
     }
 }
