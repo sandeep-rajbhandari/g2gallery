@@ -4,7 +4,7 @@ class BootStrap {
 	AuthenticateService authenticateService
 
     def init = { servletContext ->
-        new File(servletContext.getRealPath("/_photos")).listFiles().each {file ->
+        new File('/home/trung/image').listFiles().each {file ->
          		if (file.isFile())
          			createPhoto(file)
 
@@ -35,7 +35,14 @@ class BootStrap {
      }
 
 	def createPhoto = {file ->
-		def buffImage = ImageIO.read(file)
-		new Photo(name : file.name, description : file.name, url : file.name, width : buffImage.width, height : buffImage.height).save()
+		println file
+		def inputstream = file.newInputStream()
+		def photo = new Photo(name : file.name, description : file.name,
+				url : file.name, photoStream : inputstream)
+
+		println photo.photoStream
+		photo.save()
+		assert photo.width != 0 && photo.height != 0
+
 	}
 }

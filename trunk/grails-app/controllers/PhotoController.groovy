@@ -35,13 +35,14 @@ class PhotoController {
     }
 
     def showPhoto = {
-        response.outputStream << photoIOService.load(params.url)
+    	def photo = Photo.get(params.id)
+        response.outputStream << photo.getPhotoAsStream()
     }
 
     def delete = {
         def photo = Photo.get( params.id )
         if(photo) {
-        	if (photoIOService.delete(photo.url))  photo.delete()
+        	photo.delete()
 
             flash.message = "Photo ${params.id} deleted"
             redirect(action:list)
@@ -100,19 +101,21 @@ class PhotoController {
 
         photoIOService.save(file.inputStream, file.originalFilename)
     }
-    
+
     def save = {
-    	def bufferedImage = savePhotoStream()
+    	//def bufferedImage = savePhotoStream()
 
         def photo = new Photo()
     	photo.properties = params
 
-    	photo.width = bufferedImage.width
-    	photo.height = bufferedImage.height
-    	photo.url = file.originalFilename
-    	if (!photo.name) {
+    	photo.photoStream = ((MultipartHttpServletRequest)request).getFile('url').inputStream
+
+    	//photo.width = bufferedImage.width
+    	//photo.height = bufferedImage.height
+    	//photo.url = file.originalFilename
+    	/*if (!photo.name) {
     		photo.name = photo.url[0..<photo.url.lastIndexOf('.')]
-    	}
+    	}*/
         if(!photo.hasErrors() && photo.save()) {
             flash.message = "Photo ${photo.id} created"
             redirect(action:show,id:photo.id)
