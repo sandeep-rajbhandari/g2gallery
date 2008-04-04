@@ -4,21 +4,23 @@ class PhotoIOService {
 
     boolean transactional = false
 
-    def ftpService
+    FtpService ftpService
 
-    boolean useFtp = true
+    boolean useFtp = false
 
     def save(inputStream, fileName) {
     	def outputFile = newFile(fileName)
 
-        FileOutputStream outputStream = new FileOutputStream(outputFile)
-        outputStream << inputStream
-
-        ImageIO.read(outputFile)
+    	if (useFtp) {
+    		ftpService.save inputStream, fileName
+    	} else {
+    		FileOutputStream outputStream = new FileOutputStream(outputFile)
+    		outputStream << inputStream
+    	}
     }
 
     private def getPhotoDir() {
-    	def photoDir = new File(ServletContextHolder.servletContext.getRealPath("/_photos"))
+    	def photoDir = new File(ServletContextHolder.servletContext.getRealPath('/_photos'))
         if (!photoDir.exists()) {
         	photoDir.mkdir()
         }
@@ -26,10 +28,18 @@ class PhotoIOService {
     }
 
     def delete(fileName) {
-        newFile(fileName).delete()
+    	if (useFtp) {
+    		ftpService.delete fileName
+    	} else {
+    		newFile(fileName).delete()
+    	}
     }
     def load(fileName) {
-        newFile(fileName).newInputStream()
+    	if (useFtp) {
+    		return ftpService.load(fileName)
+    	} else {
+    		return newFile(fileName).newInputStream()
+    	}
     }
 
     private File newFile(fileName) {

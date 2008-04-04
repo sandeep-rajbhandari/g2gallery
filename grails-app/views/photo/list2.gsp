@@ -20,57 +20,10 @@
         	function init() {
 	        	photoViewer = new PhotoViewer();
 	        	<g:each in="${photoList}" var="photo">
-	        		photoViewer.add("${createLink(action : 'showPhoto', params : [url : photo.url])}", "${photo.description}");
+	        		photoViewer.add("${createLink(action : 'showPhoto', params : [id : photo.id])}", "${photo.description}");
 	        		new Tip("iconDiv${photo.id}", $("iconDiv${photo.id}Tooltip").innerHTML, {className : 'darkTip', effect : 'appear'});
 	        	</g:each>
-
-
-	        	//$('content').setStyle({height: document.getSize().height - $('logoDiv').getHeight() - $('menuDiv').getHeight() -7 /* ???*/});
         	}
-
-			/*document.getSize = function() {
-			    var xScroll = 0;
-			    var yScroll = 0;
-
-			    if (window.innerHeight && window.scrollMaxY) {
-			        xScroll = window.innerWidth + window.scrollMaxX;
-			        yScroll = window.innerHeight + window.scrollMaxY;
-
-			    } else if (document.body.scrollHeight > document.body.offsetHeight) { // all but Explorer Mac
-			        xScroll = document.body.scrollWidth;
-			        yScroll = document.body.scrollHeight;
-
-			    } else { // Explorer Mac...would also work in Explorer 6 Strict,Mozilla and Safari
-			        xScroll = document.body.offsetWidth;
-			        yScroll = document.body.offsetHeight;
-			    }
-
-			    var windowWidth, windowHeight;
-
-			    if (self.innerHeight) { // all except Explorer
-			        windowWidth = (document.documentElement.clientWidth) ?
-					document.documentElement.clientWidth : self.innerWidth;
-					        windowHeight = self.innerHeight;
-
-			    } else if (document.documentElement &&	document.documentElement.clientHeight) { // Explorer 6 Strict Mode
-			        windowWidth = document.documentElement.clientWidth;
-			        windowHeight = document.documentElement.clientHeight;
-
-			    } else if (document.body) { // other Explorers
-			        windowWidth = document.body.clientWidth;
-			        windowHeight = document.body.clientHeight;
-			    }
-
-			    // for small pages with total height less then height of the viewport
-			    var docHeight = (yScroll < windowHeight) ? windowHeight : yScroll;
-
-			    // for small pages with total width less then width of the viewport
-			    var docWidth = (xScroll < windowWidth) ? xScroll : windowWidth;
-
-			    // return arrayPageSize;
-			    return {"width": docWidth, "height": docHeight};
-
-			}*/
 
         	new Event.observe(window, 'load', init);
         </g:javascript>
