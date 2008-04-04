@@ -87,5 +87,6 @@
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-webflow-1.0.1.jar"/>
 	<classpathentry kind="lib" path="plugins/acegi-0.2/lib/acegi-security-1.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/mail-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net-1.4.1.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>
