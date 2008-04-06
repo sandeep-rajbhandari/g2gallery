@@ -4,7 +4,7 @@ class BootStrap {
 	AuthenticateService authenticateService
 
     def init = { servletContext ->
-        new File('/home/trung/image').listFiles().each {file ->
+        new File(System.getProperty('user.home') + '/image').listFiles().each {file ->
          		if (file.isFile())
          			createPhoto(file)
 
@@ -17,8 +17,8 @@ class BootStrap {
 
         def trungsi = new User(username : 'trungsi', userRealName : 'tran duc trung',
         		passwd : authenticateService.passwordEncoder('trungsi'),
-        		enabled : true, email : 'dttran@meilleurtaux.com',
-        		email_show : true, description : 'test')
+        		enabled : true, email : 'ductrung.tran@gmail.com',
+        		email_show : true, description : 'admin')
         trungsi.save()
 
         adminRole.addToPeople(trungsi)
@@ -35,14 +35,13 @@ class BootStrap {
      }
 
 	def createPhoto = {file ->
-		println file
-		def inputstream = file.newInputStream()
-		def photo = new Photo(name : file.name, description : file.name,
-				url : file.name, photoStream : inputstream)
+        println file
+        def photo = new Photo(name: file.name, description: file.name,
+                url: file.name, photoStream: file.newInputStream())
 
-		println photo.photoStream
-		photo.save()
-		assert photo.width != 0 && photo.height != 0
+        photo.save()
+        photo.photoIOService.save(file.newInputStream(), photo.url)
+        assert photo.width != 0 && photo.height != 0
 
-	}
+    }
 }

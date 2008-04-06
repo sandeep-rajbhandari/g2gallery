@@ -18,6 +18,6 @@ function showPhotoInfos2(id) {
 }
 
 function photoView(photo, container) {
-	var img = "<img src='" + CONTEXT_PATH + "/photo/showPhoto?url=" + photo.url + "'/>";
+	var img = "<img src='" + CONTEXT_PATH + "/photo/showPhoto/" + photo.id + "'/>";
 	container.update(img);
 }

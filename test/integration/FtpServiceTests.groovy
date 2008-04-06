@@ -6,8 +6,10 @@ class FtpServiceTests extends GroovyTestCase {
 
         ftpService.save new ByteArrayInputStream('ce ci est un test'.bytes), 'test'
 
-        assertEquals 'ce ci est un test', ftpService.load('test').text
-
+        def stream = ftpService.load('test')
+        assertEquals 'ce ci est un test', stream.text
+        stream.close()
+        
         ftpService.delete 'test'
     }
 }

@@ -1,8 +1,9 @@
 import org.apache.commons.net.ftp.FTPClient
+import org.apache.commons.net.ftp.FTP
 
 class FtpService {
 
-    boolean transactional = false
+    boolean transactional = true
     
     String server = 'localhost'
     String username = 'trungsi'
@@ -14,7 +15,12 @@ class FtpService {
     }
 
     def load(fileName) {
-        connect {ftp -> ftp.retrieveFileStream "${remoteBaseDir}/${fileName}"}
+        connect {ftp ->
+            def stream = ftp.retrieveFileStream("${remoteBaseDir}/${fileName}")
+
+
+            stream
+        }
     }
 
     def delete(fileName) {
@@ -25,6 +31,7 @@ class FtpService {
         def ftp = new FTPClient()
         ftp.connect server
         ftp.login username, passwd
+        ftp.fileType = FTP.IMAGE_FILE_TYPE
 
         def result = c?.call(ftp)
 

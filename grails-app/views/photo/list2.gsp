@@ -57,7 +57,8 @@
 	                            <div>Name : ${photo.name}</div>
 	                            <div>Description : ${photo.description}</div>
 	                            <div>Dimension : ${photo.width}x${photo.height}</div>
-	                            <div>Url : ${photo.url}</div>
+                                <div>Size : ${photo.size}</div>
+                                <div>Url : ${photo.url}</div>
 	                            <div>Album : ${photo.album?.name}</div>
 	                        </div>
 	                     </g:each>
