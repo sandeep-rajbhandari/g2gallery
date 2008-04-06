@@ -15,7 +15,8 @@ environments {
 		dataSource {
 			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
 			url = "jdbc:hsqldb:mem:devDB"
-		}
+            pooled = true
+        }
 	}
 	test {
 		dataSource {

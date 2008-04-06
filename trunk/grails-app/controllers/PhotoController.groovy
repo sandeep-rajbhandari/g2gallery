@@ -4,8 +4,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class PhotoController {
 
-    def photoIOService
-
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -21,7 +19,6 @@ class PhotoController {
     }
 
     def show = {
-    	println params
         def photo = Photo.get( params.id )
 
         if(!photo) {
@@ -30,13 +27,16 @@ class PhotoController {
         }
         else { return [ photo : photo ] }
     }
+
     def show2 = {
     	render(show() as JSON)
     }
 
     def showPhoto = {
     	def photo = Photo.get(params.id)
-        response.outputStream << photo.getPhotoAsStream()
+        def inputStream =  photo.photoIOService.load(photo.url) //photo.photoAsStream
+        response.outputStream << inputStream
+        //inputStream.close()
     }
 
     def delete = {
@@ -95,27 +95,19 @@ class PhotoController {
         return ['photo':photo]
     }
 
-    def savePhotoStream = {
+    /*def savePhotoStream = {
         MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request
     	CommonsMultipartFile file = (CommonsMultipartFile)multiRequest.getFile("url")
 
         photoIOService.save(file.inputStream, file.originalFilename)
-    }
+    }*/
 
     def save = {
-    	//def bufferedImage = savePhotoStream()
-
         def photo = new Photo()
     	photo.properties = params
 
     	photo.photoStream = ((MultipartHttpServletRequest)request).getFile('url').inputStream
 
-    	//photo.width = bufferedImage.width
-    	//photo.height = bufferedImage.height
-    	//photo.url = file.originalFilename
-    	/*if (!photo.name) {
-    		photo.name = photo.url[0..<photo.url.lastIndexOf('.')]
-    	}*/
         if(!photo.hasErrors() && photo.save()) {
             flash.message = "Photo ${photo.id} created"
             redirect(action:show,id:photo.id)

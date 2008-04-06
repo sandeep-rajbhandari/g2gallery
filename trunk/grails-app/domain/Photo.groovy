@@ -9,7 +9,9 @@ class Photo {
 	int width
 	int height
 
-	private transient InputStream photoStream
+    int size
+    
+    private transient byte[] streamBytes
 
 	PhotoIOService photoIOService // injected
 
@@ -20,37 +22,57 @@ class Photo {
 		album(nullable : true)
 	}
 
-    /*def beforeInsert = {
-    	def bufferedImage = ImageIO.read(this.photoStream)
-    	this.width = bufferedImage.width
-    	this.height = bufferedImage.height
-    	println "before save " + this
+    /*def afterInsert = {
+        photoIOService.save(new ByteArrayInputStream(streamBytes), url)
+    }
+
+    def beforeDelete = {
+        this.photoIOService.delete(url)
     }*/
 
-    def afterInsert = {
-    	photoIOService.save(photoStream, url)
-    	println "after save " + this
-    }
-
-    def afterDelete = {
-    	photoIOService.delete(url)
-    }
-
     def getPhotoAsStream() {
-    	photoIOService.load(url)
+        /*def start = System.currentTimeMillis()
+        
+        if (!this.streamBytes) {
+            this.streamBytes = asBytes(photoIOService.load(url))
+        }
+        println "load ${streamBytes.length} file ${url} took " + (System.currentTimeMillis() - start)
+
+        new ByteArrayInputStream(this.streamBytes)*/
+        photoIOService.load(url)
     }
 
 	//static belongsTo = Album
 	Album album
 
 	public void setPhotoStream(InputStream stream) {
-		this.photoStream = stream
-		def bufferedImage = ImageIO.read(this.photoStream)
-    	this.width = bufferedImage.width
-    	this.height = bufferedImage.height
-	}
+        this.streamBytes = asBytes(stream)
 
-	String toString() {
+        def bufferedImage = ImageIO.read(new ByteArrayInputStream(this.streamBytes))
+
+        this.width = bufferedImage?.width ?: 0
+        this.height = bufferedImage?.height ?: 0
+        this.size = this.streamBytes.length
+        println "${name} ${size}"
+    }
+
+    private def asBytes(InputStream stream) {
+        try {
+            def bytesList = []
+            byte[] buffer = new byte[1024]
+            int byteRead
+
+            while ((byteRead = stream.read(buffer)) !=  -1) {
+                bytesList += buffer[0..<byteRead].asList()
+            }
+
+            return bytesList.toArray(new byte[bytesList.size()])
+            
+        } finally {
+            stream.close()
+        }
+    }
+    String toString() {
 		"Photo[name : $name, description : $description, width : $width, height : $height]"
 	}
 }

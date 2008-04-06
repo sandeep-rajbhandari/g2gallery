@@ -2,25 +2,29 @@ import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
 class PhotoIOService {
 
-    boolean transactional = false
+    boolean transactional = true
 
     FtpService ftpService
 
     boolean useFtp = false
 
-    def save(inputStream, fileName) {
-    	def outputFile = newFile(fileName)
+    String baseDir = ServletContextHolder.servletContext?.getRealPath('/_photos')
 
+    def save(inputStream, fileName) {
     	if (useFtp) {
-    		ftpService.save inputStream, fileName
+    		ftpService.save(inputStream, fileName)
     	} else {
-    		FileOutputStream outputStream = new FileOutputStream(outputFile)
+    		FileOutputStream outputStream = new FileOutputStream(newFile(fileName))
     		outputStream << inputStream
-    	}
+
+            outputStream.close()
+        }
+
+        inputStream.close()        
     }
 
     private def getPhotoDir() {
-    	def photoDir = new File(ServletContextHolder.servletContext.getRealPath('/_photos'))
+    	def photoDir = new File(baseDir)
         if (!photoDir.exists()) {
         	photoDir.mkdir()
         }
