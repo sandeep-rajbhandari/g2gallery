@@ -36,12 +36,16 @@ class BootStrap {
 
 	def createPhoto = {file ->
         println file
-        def photo = new Photo(name: file.name, description: file.name,
-                url: file.name, photoStream: file.newInputStream())
+        Photo.withTransaction {tx ->
+	        def photo = new Photo(name: file.name, description: file.name,
+	                url: file.name, photoStream: file.newInputStream())
 
-        photo.save()
-        photo.photoIOService.save(file.newInputStream(), photo.url)
-        assert photo.width != 0 && photo.height != 0
+	        photo.save(flush : true)
+	        //photo.photoIOService.save(file.newInputStream(), photo.url)
 
+	        if(! (photo.width != 0 && photo.height != 0)) {
+	        	tx.setRollbackOnly()
+	        }
+        }
     }
 }

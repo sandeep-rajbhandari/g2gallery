@@ -10,7 +10,7 @@ class Photo {
 	int height
 
     int size
-    
+
     private transient byte[] streamBytes
 
 	PhotoIOService photoIOService // injected
@@ -22,24 +22,24 @@ class Photo {
 		album(nullable : true)
 	}
 
-    /*def afterInsert = {
-        photoIOService.save(new ByteArrayInputStream(streamBytes), url)
+    def afterInsert = {
+        this.photoIOService.save(new ByteArrayInputStream(this.streamBytes), this.url)
     }
 
     def beforeDelete = {
         this.photoIOService.delete(url)
-    }*/
+    }
 
     def getPhotoAsStream() {
-        /*def start = System.currentTimeMillis()
-        
+        def start = System.currentTimeMillis()
+
         if (!this.streamBytes) {
             this.streamBytes = asBytes(photoIOService.load(url))
         }
         println "load ${streamBytes.length} file ${url} took " + (System.currentTimeMillis() - start)
 
-        new ByteArrayInputStream(this.streamBytes)*/
-        photoIOService.load(url)
+        new ByteArrayInputStream(this.streamBytes)
+        //photoIOService.load(url)
     }
 
 	//static belongsTo = Album
@@ -67,7 +67,7 @@ class Photo {
             }
 
             return bytesList.toArray(new byte[bytesList.size()])
-            
+
         } finally {
             stream.close()
         }
