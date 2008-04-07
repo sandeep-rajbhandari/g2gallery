@@ -18,7 +18,11 @@ class FtpServiceTests extends GroovyTestCase {
 	    	def file = new File(System.getProperty('user.home') + '/image/twins.jpg')
 	    	def filesize = file.size()
 
-	    	ftpService.save file.newInputStream(), 'test.jpg'
+            /*ftpService.server = 'ftpperso.free.fr'
+            ftpService.username = 'ductrung.tran'
+            ftpService.passwd = 'ovqm53kn'*/
+            
+            ftpService.save file.newInputStream(), 'test.jpg'
 
 	    	def stream = ftpService.load('test.jpg')
 	    	def file2 = new File(System.getProperty('user.home') + '/image/test.jpg')
