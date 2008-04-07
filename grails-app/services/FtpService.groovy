@@ -15,28 +15,60 @@ class FtpService {
     }
 
     def load(fileName) {
-        connect {ftp ->
-            def stream = ftp.retrieveFileStream("${remoteBaseDir}/${fileName}")
+        connect ({ftp ->
+            ftp.retrieveFileStream("${remoteBaseDir}/${fileName}")
 
-
-            stream
-        }
+            /*if (stream)
+             return new FtpInputStream (stream, ftp)*/
+        }, false)
     }
 
     def delete(fileName) {
         connect {ftp -> ftp.deleteFile "${remoteBaseDir}/${fileName}"}
     }
 
-    private def connect(Closure c) {
+    private def connect(Closure c, boolean discOnFinish = true) {
         def ftp = new FTPClient()
         ftp.connect server
         ftp.login username, passwd
         ftp.fileType = FTP.IMAGE_FILE_TYPE
 
-        def result = c?.call(ftp)
-
-        ftp.disconnect()
-
-        result
+        try {
+            return c?.call(ftp)
+        } finally {
+            if (discOnFinish)
+                ftp.logout()
+                ftp.disconnect()
+        }
     }
+}
+
+class FtpInputStream extends BufferedInputStream {
+
+    //def delegate
+    def ftp
+
+    FtpInputStream(InputStream inputStream, def ftpServer) {
+        super(inputStream)
+        this.ftp = ftpServer
+    }
+
+    void close() {
+        super.close()
+        if (!ftp.completePendingCommand()) {
+            ftp.logout()
+            ftp.disconnec()
+            throw new Exception('ftp command not complete')
+        }
+    }
+    /*def invokeMethod(String name, Object args) {
+        if (name == 'close') {
+            ftp.disconnect()
+        }
+
+        println "method $name called"
+        
+        delegate."$name"(*args)
+    }*/
+
 }
