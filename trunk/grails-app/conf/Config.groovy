@@ -47,9 +47,15 @@ log4j {
     appender.'errors.layout'="org.apache.log4j.PatternLayout"
     appender.'errors.layout.ConversionPattern'='[%r] %c{2} %m%n'
     appender.'errors.File'="stacktrace.log"
-    rootLogger="error,stdout"
+
+    appender.spring = "org.apache.log4j.FileAppender"
+    appender.'spring.layout'="org.apache.log4j.PatternLayout"
+    appender.'spring.layout.ConversionPattern'='[%r] %c{2} %m%n'
+    appender.'spring.File'="springstacktrace.log"
+
+    rootLogger="error,errors"
     logger {
-        grails="error"
+        grails="debug"
         StackTrace="error,errors"
         org {
             codehaus.groovy.grails.web.servlet="error"  //  controllers
@@ -58,10 +64,10 @@ log4j {
             codehaus.groovy.grails."web.mapping.filter"="error" // URL mapping
             codehaus.groovy.grails."web.mapping"="error" // URL mapping
             codehaus.groovy.grails.commons="info" // core / classloading
-            codehaus.groovy.grails.plugins="error" // plugins
-            codehaus.groovy.grails.orm.hibernate="error" // hibernate integration
-            springframework="off"
-            hibernate="off"
+            codehaus.groovy.grails.plugins="debug" // plugins
+            codehaus.groovy.grails.orm.hibernate="debug" // hibernate integration
+            springframework="error"
+            hibernate="error"
         }
     }
     additivity.StackTrace=false
@@ -70,4 +76,4 @@ log4j {
 
 
 
-log4j.logger.org.acegisecurity="off,stdout"
+log4j.logger.org.acegisecurity="error"

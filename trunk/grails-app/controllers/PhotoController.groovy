@@ -34,9 +34,9 @@ class PhotoController {
 
     def showPhoto = {
     	def photo = Photo.get(params.id)
-        def inputStream =  photo.photoIOService.load(photo.url) //photo.photoAsStream
+        def inputStream =  /*photo.photoIOService.load(photo.url)*/ photo.photoAsStream
         response.outputStream << inputStream
-        //inputStream.close()
+        inputStream.close()
     }
 
     def delete = {
