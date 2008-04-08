@@ -21,45 +21,44 @@ import org.springframework.orm.hibernate3.SessionFactoryUtils
 import org.springframework.orm.hibernate3.SessionHolder
 import org.springframework.transaction.support.TransactionSynchronizationManager
 
-
 public abstract class SessionSupport {
-  
-  def session
-	boolean containerManagedSession = false
-	
-  /**
-   * set up hibernate session
-   */
-  protected void setUpSession() {
-    try {
-      sessionFactory //= (SessionFactory) getWebApplicationContext().getBean("sessionFactory");
 
-      if (TransactionSynchronizationManager.hasResource(sessionFactory)) {
-        if (logger.isDebugEnabled()) logger.debug("Session already has transaction attached");
-        containerManagedSession = true;
-        session = ((SessionHolder) TransactionSynchronizationManager.getResource(sessionFactory)).getSession();
-      } else {
-        if (logger.isDebugEnabled()) logger.debug("Session does not have transaction attached... Creating new one");
-        containerManagedSession = false;
-        session = SessionFactoryUtils.getSession(sessionFactory, true);
-        SessionHolder sessionHolder = new SessionHolder(session);
-        TransactionSynchronizationManager.bindResource(sessionFactory, sessionHolder);
-      }
+	def sessionFactory
 
-    } catch (Exception e) {
-      logger.error(e.getMessage());
-      e.printStackTrace();
-    }
-  }
+	/**
+   	 * set up hibernate session
+   	 */
+   	protected Map setUpSession() {
 
-  /**
-   * Release Session
-   */
-  protected void releaseSession() {
-    if (!containerManagedSession) {
-      SessionHolder sessionHolder = (SessionHolder) TransactionSynchronizationManager.unbindResource(sessionFactory);
-      SessionFactoryUtils.releaseSession(sessionHolder.getSession(), sessionFactory);
-      logger.debug("Session released");
-    }
-  }
+   		def session
+   		boolean containerManagedSession
+		if (TransactionSynchronizationManager.hasResource(sessionFactory)) {
+			logger.debug("Session already has transaction attached")
+			containerManagedSession = true
+			session = ((SessionHolder)TransactionSynchronizationManager.getResource(sessionFactory)).session
+		}
+		else {
+			logger.debug("Session does not have transaction attached... Creating new one")
+			containerManagedSession = false
+			session = SessionFactoryUtils.getSession(sessionFactory, true)
+			SessionHolder sessionHolder = new SessionHolder(session)
+			TransactionSynchronizationManager.bindResource(sessionFactory, sessionHolder)
+		}
+   		[session: session, containerManagedSession: containerManagedSession]
+	}
+
+	/**
+   	 * Release Session
+   	 */
+   	protected void releaseSession(Map container) {
+		if (container == null) {
+			return
+		}
+		if (!container.containerManagedSession) {
+			SessionHolder sessionHolder = (SessionHolder)TransactionSynchronizationManager.unbindResource(sessionFactory)
+			SessionFactoryUtils.releaseSession(sessionHolder.session, sessionFactory)
+			logger.debug("Session released")
+		}
+	}
 }
+

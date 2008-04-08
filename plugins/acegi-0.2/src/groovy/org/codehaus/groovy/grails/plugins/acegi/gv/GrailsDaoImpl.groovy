@@ -32,78 +32,77 @@ import org.springframework.dao.DataAccessException
  */
 public class GrailsDaoImpl extends SessionSupport implements UserDetailsService {
 
-  private static final Log logger = LogFactory.getLog(GrailsDaoImpl.class)
-  
-  /** Hibernate session factory */
-  def sessionFactory
-  /** LoginUser Domain Class */
-  def loginUserDomainClass
-  /** username field name */
-  def userName
-  /** password field name */
-  def password
-  /** enabled field name */
-  def enabled
-  /** LoginUser getAuthorities field */
-  def relationalAuthorities
-  /** authority field name */
-  def authority
-  /** for customise authorities */
-  def authoritiesMethod
-  
-  /**
-   * Load login user by Username
-   */
-  public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException, DataAccessException {
-    setUpSession()
-    def grailsUser
-    //def hsession = sessionFactory.openSession()//.getCurrentSession()
-    def query = session.createQuery("from $loginUserDomainClass where $userName=:userName")
-    query.setProperties([userName:arg0])
-    def list = query/*.setCacheable(true)*/.list()
-    
-    
-    if(list.size()>0){
-      def user = list[0]
-      def _authorities=[]
-      if(relationalAuthorities!=null){
-        def authorities = user."$relationalAuthorities"
-        if ( authorities==null || (authorities!=null && authorities.size() == 0) ) {
-          logger.error("User [$arg0] has no GrantedAuthority")
-          throw new UsernameNotFoundException("User has no GrantedAuthority ")
-        }
-        
-        authorities.each{a->
-          _authorities << new GrantedAuthorityImpl(a."$authority")
-        }
-        
-      }else if(relationalAuthorities==null && authoritiesMethod!=null){
-        def roles = user."$authoritiesMethod"()
-        if ( roles==null || (roles!=null && roles.size() == 0) ) {
-          logger.error("User [$arg0] has no GrantedAuthority")
-          throw new UsernameNotFoundException("User has no GrantedAuthority")
-        }
-        roles.each{role->
-          _authorities << new GrantedAuthorityImpl(role)
-        }
-      }else{
-        logger.error("User [$arg0] has no GrantedAuthority")
-        throw new UsernameNotFoundException("User has no GrantedAuthority")
-      }
-      
-      //set properties to GrailsUser extends org.acegisecurity.userdetails.User
-      grailsUser = new GrailsUser(
-        user."$userName", user."$password", user."$enabled" , true, true, true, _authorities as GrantedAuthorityImpl[])
-      //and set LoginUser domain class object
-      grailsUser.setDomainClass(user)
+	private static final Log logger = LogFactory.getLog(GrailsDaoImpl.class)
 
-    }else{
-      logger.error("User not found: " + arg0)
-      throw new UsernameNotFoundException("User not found.",arg0)
-    }
-    
-    releaseSession()
-    return grailsUser
-  }
-  
+	/** LoginUser Domain Class */
+	def loginUserDomainClass
+	/** username field name */
+	def userName
+	/** password field name */
+	def password
+	/** enabled field name */
+	def enabled
+	/** LoginUser getAuthorities field */
+	def relationalAuthorities
+	/** authority field name */
+	def authority
+	/** for customise authorities */
+	def authoritiesMethod
+
+	/**
+	 * Load login user by Username
+	 */
+	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+
+		def container = setUpSession()
+
+		try {
+
+			def grailsUser
+			def query = container.session.createQuery("from $loginUserDomainClass where $userName=:userName")
+			query.setProperties([userName:username])
+			def list = query/*.setCacheable(true)*/.list()
+
+			if (list.empty) {
+				logger.error("User not found: " + username)
+				throw new UsernameNotFoundException("User not found.",username)
+			}
+
+			def user = list[0]
+			def _authorities = []
+			if (relationalAuthorities != null) {
+				def authorities = user."$relationalAuthorities"
+				if (authorities == null || authorities.empty) {
+					logger.error("User [$username] has no GrantedAuthority")
+					throw new UsernameNotFoundException("User has no GrantedAuthority")
+				}
+				authorities.each { a ->
+					_authorities << new GrantedAuthorityImpl(a."$authority")
+				}
+			}
+			else if (authoritiesMethod != null) {
+				def roles = user."$authoritiesMethod"()
+				if (roles == null || roles.empty) {
+					logger.error("User [$username] has no GrantedAuthority")
+					throw new UsernameNotFoundException("User has no GrantedAuthority")
+				}
+				roles.each { role ->
+					_authorities << new GrantedAuthorityImpl(role)
+				}
+			}
+			else {
+				logger.error("User [$username] has no GrantedAuthority")
+				throw new UsernameNotFoundException("User has no GrantedAuthority")
+			}
+
+			grailsUser = new GrailsUser(
+					username, user."$password", user."$enabled",
+					true, true, true, _authorities as GrantedAuthorityImpl[])
+			grailsUser.setDomainClass(user)
+			return grailsUser
+		}
+		finally {
+			releaseSession(container)
+		}
+	}
 }
