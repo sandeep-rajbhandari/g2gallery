@@ -1,10 +1,8 @@
 import javax.imageio.ImageIO
 
 class Photo {
-    String name
-	String description
 
-	String url
+	String description
 
 	int width
 	int height
@@ -15,6 +13,9 @@ class Photo {
 
 	PhotoIOService photoIOService // injected
 
+	// static belongsTo = Album
+	Album album
+
 	static transients = ['photoStream', 'photoIOService']
 
 	static constraints = {
@@ -23,27 +24,31 @@ class Photo {
 	}
 
     def afterInsert = {
-        this.photoIOService.save(new ByteArrayInputStream(this.streamBytes), this.url)
+		if (!this.hasErrors()) {
+			this.photoIOService.save(
+        		new ByteArrayInputStream(this.streamBytes), this.id)
+		} else {
+			this.errors.allErrors.each {println it}
+		}
     }
 
     def beforeDelete = {
-        this.photoIOService.delete(url)
+        this.photoIOService.delete(this.id)
     }
 
-    def getPhotoAsStream() {
-        def start = System.currentTimeMillis()
+	// il faut que le getter ait la même signature que le setter
+	// def getPhotoStream est traduit en public Object getPhotoStream
+	// on ne peut plus utiliser obj.photoStream =
+    public InputStream getPhotoStream() {
+        //def start = System.currentTimeMillis()
 
         if (!this.streamBytes) {
-            this.streamBytes = asBytes(photoIOService.load(url))
+            this.streamBytes = asBytes(photoIOService.load(this.id))
         }
-        println "load ${streamBytes.length} file ${url} took " + (System.currentTimeMillis() - start)
+        //println "load ${streamBytes.length} file ${url} took " + (System.currentTimeMillis() - start)
 
         new ByteArrayInputStream(this.streamBytes)
-        //photoIOService.load(url)
     }
-
-	//static belongsTo = Album
-	Album album
 
 	public void setPhotoStream(InputStream stream) {
         this.streamBytes = asBytes(stream)
@@ -53,7 +58,6 @@ class Photo {
         this.width = bufferedImage?.width ?: 0
         this.height = bufferedImage?.height ?: 0
         this.size = this.streamBytes.length
-        println "${name} ${size}"
     }
 
     private def asBytes(InputStream stream) {
@@ -72,7 +76,8 @@ class Photo {
             stream.close()
         }
     }
+
     String toString() {
-		"Photo[name : $name, description : $description, width : $width, height : $height]"
+		"Photo[description : $description, width : $width, height : $height]"
 	}
 }

@@ -4,7 +4,7 @@ import org.apache.commons.net.ftp.FTP
 class FtpService {
 
     boolean transactional = true
-    
+
     String server = 'localhost'
     String username = 'trungsi'
     String passwd = 'trungsi'
@@ -16,10 +16,7 @@ class FtpService {
 
     def load(fileName) {
         connect ({ftp ->
-            ftp.retrieveFileStream("${remoteBaseDir}/${fileName}")
-
-            /*if (stream)
-             return new FtpInputStream (stream, ftp)*/
+            ftp.retrieveFileStream "${remoteBaseDir}/${fileName}"
         }, false)
     }
 
@@ -41,34 +38,4 @@ class FtpService {
                 ftp.disconnect()
         }
     }
-}
-
-class FtpInputStream extends BufferedInputStream {
-
-    //def delegate
-    def ftp
-
-    FtpInputStream(InputStream inputStream, def ftpServer) {
-        super(inputStream)
-        this.ftp = ftpServer
-    }
-
-    void close() {
-        super.close()
-        if (!ftp.completePendingCommand()) {
-            ftp.logout()
-            ftp.disconnec()
-            throw new Exception('ftp command not complete')
-        }
-    }
-    /*def invokeMethod(String name, Object args) {
-        if (name == 'close') {
-            ftp.disconnect()
-        }
-
-        println "method $name called"
-        
-        delegate."$name"(*args)
-    }*/
-
 }

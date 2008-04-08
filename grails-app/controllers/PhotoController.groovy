@@ -34,7 +34,7 @@ class PhotoController {
 
     def showPhoto = {
     	def photo = Photo.get(params.id)
-        def inputStream =  /*photo.photoIOService.load(photo.url)*/ photo.photoAsStream
+        def inputStream =  photo.photoStream
         response.outputStream << inputStream
         inputStream.close()
     }
@@ -94,13 +94,6 @@ class PhotoController {
 
         return ['photo':photo]
     }
-
-    /*def savePhotoStream = {
-        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request
-    	CommonsMultipartFile file = (CommonsMultipartFile)multiRequest.getFile("url")
-
-        photoIOService.save(file.inputStream, file.originalFilename)
-    }*/
 
     def save = {
         def photo = new Photo()

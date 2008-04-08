@@ -1,31 +1,41 @@
 @CHARSET "UTF-8";
+
+body {
+	background: #000;
+	color: #fff;
+}
 .iconDiv {
-	height : 90px;
-	width: 90px;
 	float: left;
 	cursor: pointer;
-}
-.iconDivInner {
 	margin: 4px;
-	padding: 2px;
 }
-.iconText {
-	overflow: hidden;
-}
+
 .iconDivTooltip {
 	display: none;
 }
 
-.bordered {
-    border: 1px solid;
+.iconPhoto {
+	border: solid 4px white;
 }
 
-.left {
+#content {
+	//width: 100%;
+	padding-top: 20px;
+}
+
+#photoListDiv {
 	float: left;
 	width: 300px;
 }
 
-.right {
-	margin-left: 310px;
-	padding: 2px;
+#photoDiv {
+	float: left;
+	margin-left: 10px;
+	height: 590px;
+	width : 75%;
+	text-align: center;
+}
+
+#photoShowDiv {
+
 }
