@@ -27,7 +27,7 @@
                 <div class="dialog">
                     <table>
                         <tbody>
-
+						<%--
                         	<tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="name">Name:</label>
@@ -36,22 +36,13 @@
                                     <input type="text" id="name" name="name" value="${fieldValue(bean:photo,field:'name')}"/>
                                 </td>
                             </tr>
-
+						--%>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="description">Description:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:photo,field:'description','errors')}">
                                     <input type="text" id="description" name="description" value="${fieldValue(bean:photo,field:'description')}"/>
-                                </td>
-                            </tr>
-
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="url">Url:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:photo,field:'url','errors')}">
-                                    <label id="url">${photo?.url}</label>
                                 </td>
                             </tr>
 

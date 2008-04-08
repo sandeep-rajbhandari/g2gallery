@@ -45,25 +45,20 @@
 		            </g:if>
 				</div>
 
-	            <div class="lm_left" style="width: 300px;">
+	            <div class="lm_left" id="photoListDiv">
 	                <div class="list">
 	                    <g:each in="${photoList}" status="i" var="photo">
-	                         <div class="iconDiv" id="iconDiv${photo.id}">
-	                            <div class="iconDivInner" onclick="showPhotoInfos2(${photo.id})">
-	                                <div class="iconPhoto"><g:showPhoto photo="${photo}" width="70" height="70"/></div>
-	                            </div>
+	                        <div class="iconDiv" id="iconDiv${photo.id}" onclick="showPhotoInfos2(${photo.id})">
+	                            <div class="iconPhoto"><g:showPhoto photo="${photo}" width="70" height="70"/></div>
 	                        </div>
 	                        <div class="iconDivTooltip" id="iconDiv${photo.id}Tooltip">
-	                            <div>Name : ${photo.name}</div>
 	                            <div>Description : ${photo.description}</div>
 	                            <div>Dimension : ${photo.width}x${photo.height}</div>
                                 <div>Size : ${photo.size}</div>
-                                <div>Url : ${photo.url}</div>
 	                            <div>Album : ${photo.album?.name}</div>
 	                        </div>
 	                     </g:each>
 	                     <div style="clear: both;"></div>
-
 	                </div>
 
 	                <g:if test="${photoList && photoList.size() < Photo.count()}">
@@ -73,8 +68,8 @@
 	                </g:if>
 	            </div>
 
-	            <div class="lm_center" style="text-align: center;vertical-align: middle;">
-	                <div id="photoShowDiv">aaaa</div>
+	            <div class="lm_center" id="photoDiv">
+	                <div id="photoShowDiv"></div>
 	            </div>
 	        </div>
         </div>

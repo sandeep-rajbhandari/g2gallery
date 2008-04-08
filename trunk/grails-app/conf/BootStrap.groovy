@@ -31,17 +31,17 @@ class BootStrap {
         new Requestmap(url:"/album/**",configAttribute:"ROLE_USER,ROLE_ADMIN").save()
         new Requestmap(url:"/photo/**",configAttribute:"ROLE_USER,ROLE_ADMIN").save()
      }
+
      def destroy = {
      }
 
 	def createPhoto = {file ->
         println file
         Photo.withTransaction {tx ->
-	        def photo = new Photo(name: file.name, description: file.name,
-	                url: file.name, photoStream: file.newInputStream())
+	        def photo = new Photo(description: file.name,
+	                photoStream: file.newInputStream())
 
 	        photo.save(flush : true)
-	        //photo.photoIOService.save(file.newInputStream(), photo.url)
 
 	        if(! (photo.width != 0 && photo.height != 0)) {
 	        	tx.setRollbackOnly()
