@@ -4,14 +4,13 @@ class PhotoTests extends GroovyTestCase {
     def photo
 
     void setUp() {
-        photo = new Photo(name: 'name', description: 'description',
-                url: 'test', photoStream: new ByteArrayInputStream('ceci est un test'.bytes))
+        photo = new Photo(description: 'description', photoStream: new ByteArrayInputStream('ceci est un test'.bytes))
         assert photo
     }
 
     void tearDown() {
         assert photo.photoIOService
-        
+
         photo.delete()
         assertNotExistsPhotoStream()
     }
@@ -22,16 +21,13 @@ class PhotoTests extends GroovyTestCase {
     }
 
     private def internalTest() {
-        assertNotExistsPhotoStream()
 
         photo.save()
 
         photo = Photo.get(photo.id)
 
-        assertEquals 'name', photo.name
         assertEquals 'description', photo.description
-        assertEquals 'test', photo.url
-        def stream = photo.photoAsStream
+        def stream = photo.photoStream
         assertEquals 'ceci est un test', stream.text
 
         stream.close() // if not, delete file fail on Windows
@@ -44,9 +40,11 @@ class PhotoTests extends GroovyTestCase {
 
     private def assertNotExistsPhotoStream() {
         try {
-            photo.photoIOService.load(photo.url).close()
+            photo.photoIOService.load(photo.id).close()
             fail()
-        } catch (e) {}
+        } catch (e) {
+        	e.printStackTrace()
+        }
     }
 }
 
