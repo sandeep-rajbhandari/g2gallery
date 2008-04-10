@@ -4,11 +4,6 @@ class BootStrap {
 	AuthenticateService authenticateService
 
     def init = { servletContext ->
-        new File(System.getProperty('user.home') + '/image').listFiles().each {file ->
-         		if (file.isFile())
-         			createPhoto(file)
-
-     	 }
 
         def adminRole = new Role(authority : 'ROLE_ADMIN', description : 'administrater')
         adminRole.save()
@@ -30,15 +25,21 @@ class BootStrap {
         new Requestmap(url:"/photo/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED").save()
         new Requestmap(url:"/album/**",configAttribute:"ROLE_USER,ROLE_ADMIN").save()
         new Requestmap(url:"/photo/**",configAttribute:"ROLE_USER,ROLE_ADMIN").save()
+
+        new File(System.getProperty('user.home') + '/image').listFiles().each {file ->
+         		if (file.isFile())
+         			createPhoto(file, trungsi)
+
+     	 }
      }
 
      def destroy = {
      }
 
-	def createPhoto = {file ->
-        println file
+	def createPhoto = {file, owner ->
+        //println file
         Photo.withTransaction {tx ->
-	        def photo = new Photo(description: file.name,
+	        def photo = new Photo(user : owner, description: file.name,
 	                photoStream: file.newInputStream())
 
 	        photo.save(flush : true)

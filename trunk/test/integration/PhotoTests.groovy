@@ -3,9 +3,27 @@ class PhotoTests extends GroovyTestCase {
 
     def photo
 
+    def authenticateService
+
     void setUp() {
-        photo = new Photo(description: 'description', photoStream: new ByteArrayInputStream('ceci est un test'.bytes))
+    	createUser()
+        photo = new Photo(user : User.findByUsername('trungsi'),
+        		description: 'description',
+        		photoStream: new ByteArrayInputStream('ceci est un test'.bytes))
         assert photo
+    }
+
+    void createUser() {
+    	def adminRole = new Role(authority : 'ROLE_ADMIN', description : 'administrater')
+        adminRole.save()
+
+        def trungsi = new User(username : 'trungsi', userRealName : 'tran duc trung',
+        		passwd : authenticateService.passwordEncoder('trungsi'),
+        		enabled : true, email : 'ductrung.tran@gmail.com',
+        		email_show : true, description : 'admin')
+        trungsi.save()
+
+        adminRole.addToPeople(trungsi)
     }
 
     void tearDown() {
@@ -27,6 +45,7 @@ class PhotoTests extends GroovyTestCase {
         photo = Photo.get(photo.id)
 
         assertEquals 'description', photo.description
+        assertEquals User.findByUsername('trungsi'), photo.user
         def stream = photo.photoStream
         assertEquals 'ceci est un test', stream.text
 

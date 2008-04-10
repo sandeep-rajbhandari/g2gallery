@@ -7,6 +7,7 @@ function showPhotosOfAlbum(id) {
 }
 
 function showPhotoInfos2(id) {
+	//Element.hide('iconDiv' + id);
     var showPhotoUrl = CONTEXT_PATH + "/photo/show2/" + id;
 	new Ajax.Request(showPhotoUrl, {
 		onSuccess : function (transport) {

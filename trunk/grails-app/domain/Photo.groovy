@@ -16,6 +16,8 @@ class Photo {
 	// static belongsTo = Album
 	Album album
 
+	static belongsTo = [user : User]
+
 	static transients = ['photoStream', 'photoIOService']
 
 	static constraints = {
@@ -42,18 +44,18 @@ class Photo {
     public InputStream getPhotoStream() {
         //def start = System.currentTimeMillis()
 
-        if (!this.streamBytes) {
-            this.streamBytes = asBytes(photoIOService.load(this.id))
+        if (!this.@streamBytes) {
+            this.@streamBytes = asBytes(photoIOService.load(this.id))
         }
         //println "load ${streamBytes.length} file ${url} took " + (System.currentTimeMillis() - start)
 
-        new ByteArrayInputStream(this.streamBytes)
+        new ByteArrayInputStream(this.@streamBytes)
     }
 
 	public void setPhotoStream(InputStream stream) {
-        this.streamBytes = asBytes(stream)
+        this.@streamBytes = asBytes(stream)
 
-        def bufferedImage = ImageIO.read(new ByteArrayInputStream(this.streamBytes))
+        def bufferedImage = ImageIO.read(new ByteArrayInputStream(this.@streamBytes))
 
         this.width = bufferedImage?.width ?: 0
         this.height = bufferedImage?.height ?: 0
