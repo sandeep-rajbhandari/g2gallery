@@ -1,6 +1,6 @@
-            
+
 class AlbumController {
-    
+
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -8,7 +8,7 @@ class AlbumController {
 
     def list = {
         if(!params.max) params.max = 10
-        [ albumList: Album.list( params ) ]
+        [ albumList: Album.( params ) ]
     }
 
     def show = {

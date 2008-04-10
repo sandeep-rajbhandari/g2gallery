@@ -1,6 +1,7 @@
 import grails.converters.JSON
-import org.springframework.web.multipart.MultipartHttpServletRequest
-import org.springframework.web.multipart.commons.CommonsMultipartFile
+import org.springframework.web.multipart.MultipartHttpServletRequest as MHR
+//import org.springframework.web.multipart.commons.CommonsMultipartFile
+import UserContextHolder as UCH
 
 class PhotoController {
 
@@ -11,15 +12,24 @@ class PhotoController {
 
     def list = {
         if(!params.max) params.max = 10
-        [ photoList: Photo.list( params ) ]
+        [ photoList: Photo.findAllByUser(UCH.currentUser(), params ) ]
     }
 
     def list2 =  {
         list()
     }
 
+    def doWithSecurityCheck = {photo, closure ->
+    	if (UCH.currentUser() != photo.user) {
+    		flash.message = "Operation failed"
+    		redirect (action : list)
+    	} else {
+    		return closure.call(photo)
+    	}
+    }
+
     def show = {
-        def photo = Photo.get( params.id )
+        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
 
         if(!photo) {
             flash.message = "Photo not found with id ${params.id}"
@@ -33,14 +43,15 @@ class PhotoController {
     }
 
     def showPhoto = {
-    	def photo = Photo.get(params.id)
+    	def photo = Photo.findByIdAndUser(params.id, UCH.currentUser())
+
         def inputStream =  photo.photoStream
         response.outputStream << inputStream
         inputStream.close()
     }
 
     def delete = {
-        def photo = Photo.get( params.id )
+        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
         if(photo) {
         	photo.delete()
 
@@ -54,7 +65,7 @@ class PhotoController {
     }
 
     def edit = {
-        def photo = Photo.get( params.id )
+        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
 
         if(!photo) {
             flash.message = "Photo not found with id ${params.id}"
@@ -66,7 +77,7 @@ class PhotoController {
     }
 
     def update = {
-        def photo = Photo.get( params.id )
+        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
         if(photo) {
         	if (params['album.id'] == '-1') photo.album = null
 
@@ -96,10 +107,10 @@ class PhotoController {
     }
 
     def save = {
-        def photo = new Photo()
+        def photo = new Photo(user : UCH.currentUser())
     	photo.properties = params
 
-    	photo.photoStream = ((MultipartHttpServletRequest)request).getFile('url').inputStream
+    	photo.photoStream = request.getFile('url').inputStream
 
         if(!photo.hasErrors() && photo.save()) {
             flash.message = "Photo ${photo.id} created"

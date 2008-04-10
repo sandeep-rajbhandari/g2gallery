@@ -25,6 +25,13 @@
 	        	</g:each>
         	}
 
+			function initPhotoIcons() {
+				<g:each in="${photoList}" var="photo">
+	        		new Effect.Appear('iconDiv${photo.id}', {duration:.3});
+	        	</g:each>
+			}
+
+        	new Event.observe(window, 'load', initPhotoIcons);
         	new Event.observe(window, 'load', init);
         </g:javascript>
     </head>

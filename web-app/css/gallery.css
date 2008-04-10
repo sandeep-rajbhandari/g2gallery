@@ -8,6 +8,7 @@ body {
 	float: left;
 	cursor: pointer;
 	margin: 4px;
+	display: none;
 }
 
 .iconDivTooltip {
