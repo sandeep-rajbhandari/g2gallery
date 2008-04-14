@@ -25,13 +25,15 @@
 	        	</g:each>
         	}
 
-			function initPhotoIcons() {
-				<g:each in="${photoList}" var="photo">
-	        		new Effect.Appear('iconDiv${photo.id}', {duration:.3});
-	        	</g:each>
+			function initPaginateButtons() {
+	        	new Effect.Appear('paginateButtons', {duration:.5});
 			}
 
-        	new Event.observe(window, 'load', initPhotoIcons);
+			function appear(elem) {
+				new Effect.Appear(elem, {duration:.5});
+			}
+
+        	new Event.observe(window, 'load', initPaginateButtons);
         	new Event.observe(window, 'load', init);
         </g:javascript>
     </head>
@@ -39,7 +41,9 @@
     <body>
         <div class="nav" id="menuDiv">
             <span class="menuButton"><a class="home" href="${createLinkTo(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New Photo</g:link></span>
+            <g:isLoggedIn>
+            	<span class="menuButton"><g:link class="create" action="create">New Photo</g:link></span>
+            </g:isLoggedIn>
             <span class="menuButton"><a href="javascript:void(photoViewer.show(0))">Slide Show</a></span>
         </div>
 
@@ -56,7 +60,9 @@
                 <div class="list">
                     <g:each in="${photoList}" status="i" var="photo">
                         <div class="iconDiv" id="iconDiv${photo.id}" onclick="showPhotoInfos2(${photo.id})">
-                            <div class="iconPhoto"><g:showPhoto photo="${photo}" width="70" height="70"/></div>
+                            <div class="iconPhoto" id="iconPhoto${photo.id}">
+                            	<g:showPhoto photo="${photo}" width="70" height="70" style="display: none;" id="photo${photo.id}" onload="appear(this)"/>
+                            </div>
                         </div>
                         <div class="iconDivTooltip" id="iconDiv${photo.id}Tooltip">
                             <div>Description : ${photo.description}</div>
@@ -69,15 +75,15 @@
                 </div>
 
                 <g:if test="${photoList && photoList.size() < Photo.count()}">
-                    <div class="paginateButtons">
+                    <div class="paginateButtons" id="paginateButtons" style="display: none;">
                         <g:paginate total="${Photo.count()}" />
                     </div>
                 </g:if>
 
             </div>
 
-            <div class="" id="photoShowDiv">
-                <div id="photoDiv" style="color: white;">aaaaaa</div>
+            <div id="photoShowDiv">
+                <div id="photoDiv"></div>
             </div>
         </div>
 

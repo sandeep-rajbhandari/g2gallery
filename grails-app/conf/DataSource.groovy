@@ -27,7 +27,11 @@ environments {
 	production {
 		dataSource {
 			dbCreate = "update"
-			url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+			//url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+			url = "jdbc:mysql://g2gallery.s42.eatj.com:3306/g2gallery"
+			username="g2gallery"
+			password="gallery"
+			pooled = true
 		}
 	}
 }

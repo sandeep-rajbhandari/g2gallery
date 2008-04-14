@@ -15,6 +15,10 @@ class ShowPhotoTagLib {
 	}
 
 	def addAttr = {name, value ->
-		" $name='$value'"
+		" $name='${escape(value)}'"
 	}
+
+    def escape = {value ->
+    	value.replaceAll("'", "\"")
+    }
 }

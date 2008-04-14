@@ -1,6 +1,4 @@
 import grails.converters.JSON
-import org.springframework.web.multipart.MultipartHttpServletRequest as MHR
-//import org.springframework.web.multipart.commons.CommonsMultipartFile
 import UserContextHolder as UCH
 
 class PhotoController {
@@ -48,6 +46,8 @@ class PhotoController {
         def inputStream =  photo.photoStream
         response.outputStream << inputStream
         inputStream.close()
+        response.outputStream.close()
+        return null
     }
 
     def delete = {
