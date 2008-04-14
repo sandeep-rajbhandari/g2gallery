@@ -8,7 +8,6 @@ body {
 	float: left;
 	cursor: pointer;
 	margin: 4px;
-	display: none;
 }
 
 .iconDivTooltip {
@@ -17,6 +16,9 @@ body {
 
 .iconPhoto {
 	border: solid 4px white;
+	width: 70px;
+	height: 70px;
+	background: #ccc url("/gallery/images/spinner.gif") no-repeat center;
 }
 
 #content {
