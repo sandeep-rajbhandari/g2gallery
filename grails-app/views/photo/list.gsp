@@ -40,11 +40,24 @@
 
     <body>
         <div class="nav" id="menuDiv">
+        	<div style="float: left;">
             <span class="menuButton"><a class="home" href="${createLinkTo(dir:'')}">Home</a></span>
             <g:isLoggedIn>
             	<span class="menuButton"><g:link class="create" action="create">New Photo</g:link></span>
             </g:isLoggedIn>
             <span class="menuButton"><a href="javascript:void(photoViewer.show(0))">Slide Show</a></span>
+			</div>
+
+			<div style="float: right;">
+			<span class="menuButton" style="color: black;font-weight: bold;">
+				<g:loggedInUserInfo field="userRealName">Guest User</g:loggedInUserInfo>
+			</span>
+			<g:isLoggedIn>
+				<span class="menuButton"><g:link controller="logout">( Logout )</g:link></span>
+			</g:isLoggedIn>
+			</div>
+
+			<div style="clear: both;"></div>
         </div>
 
         <div class="" id="content">

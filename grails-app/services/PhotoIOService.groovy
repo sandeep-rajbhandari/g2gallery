@@ -12,9 +12,9 @@ class PhotoIOService {
 
     def save(inputStream, fileName) {
     	if (useFtp) {
-    		ftpService.save(inputStream, fileName)
+    		ftpService.save(inputStream, fileName.toString())
     	} else {
-    		FileOutputStream outputStream = new FileOutputStream(newFile(fileName))
+    		FileOutputStream outputStream = new FileOutputStream(newFile(fileName.toString()))
     		outputStream << inputStream
 
             outputStream.close()
@@ -33,16 +33,16 @@ class PhotoIOService {
 
     def delete(fileName) {
     	if (useFtp) {
-    		ftpService.delete fileName
+    		ftpService.delete fileName.toString()
     	} else {
-    		newFile(fileName).delete()
+    		newFile(fileName.toString()).delete()
     	}
     }
     def load(fileName) {
     	if (useFtp) {
-    		return ftpService.load(fileName)
+    		return ftpService.load(fileName.toString())
     	} else {
-    		return newFile(fileName).newInputStream()
+    		return newFile(fileName.toString()).newInputStream()
     	}
     }
 

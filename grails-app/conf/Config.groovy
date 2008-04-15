@@ -66,7 +66,7 @@ log4j {
             codehaus.groovy.grails.commons="info" // core / classloading
             codehaus.groovy.grails.plugins="debug" // plugins
             codehaus.groovy.grails.orm.hibernate="debug" // hibernate integration
-            springframework="error"
+            springframework="debug"
             hibernate="error"
         }
     }

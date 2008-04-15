@@ -7,7 +7,7 @@ class FtpConfigController {
     }
 
     def edit = {
-		println SCH.context.authentication.principal
+		//println SCH.context.authentication.principal
 		['ftpService' : ftpService]
     }
 

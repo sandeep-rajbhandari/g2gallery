@@ -1,4 +1,4 @@
-import grails.converters.JSON
+import grails.converters.deep.JSON
 import UserContextHolder as UCH
 
 class PhotoController {
@@ -112,12 +112,13 @@ class PhotoController {
 
     	photo.photoStream = request.getFile('url').inputStream
 
-        if(!photo.hasErrors() && photo.save()) {
-            flash.message = "Photo ${photo.id} created"
-            redirect(action:show,id:photo.id)
-        }
-        else {
-            render(view:'create',model:[photo:photo])
-        }
+	        if(!photo.hasErrors() && photo.save(flush : true)) {
+	            flash.message = "Photo ${photo.id} created"
+	            redirect(action:show,id:photo.id)
+	        }
+	        else {
+	            render(view:'create',model:[photo:photo])
+	        }
+
     }
 }
