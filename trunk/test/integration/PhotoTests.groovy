@@ -21,7 +21,7 @@ class PhotoTests extends GroovyTestCase {
         		passwd : authenticateService.passwordEncoder('trungsi'),
         		enabled : true, email : 'ductrung.tran@gmail.com',
         		email_show : true, description : 'admin')
-        trungsi.save()
+        trungsi.save(flush : true)
 
         adminRole.addToPeople(trungsi)
     }
@@ -29,7 +29,7 @@ class PhotoTests extends GroovyTestCase {
     void tearDown() {
         assert photo.photoIOService
 
-        photo.delete()
+        photo.delete(flush : true) // flush = true is important for testing hibernate event
         assertNotExistsPhotoStream()
     }
     void testCreateAndDeletePhoto() {
@@ -40,7 +40,7 @@ class PhotoTests extends GroovyTestCase {
 
     private def internalTest() {
 
-        photo.save()
+        photo.save(flush : true)
 
         photo = Photo.get(photo.id)
 
@@ -59,7 +59,7 @@ class PhotoTests extends GroovyTestCase {
 
     private def assertNotExistsPhotoStream() {
         try {
-            photo.photoIOService.load(photo.id).close()
+            photo.photoStream.close()
             fail()
         } catch (e) {
         	e.printStackTrace()

@@ -36,6 +36,7 @@ function photoView(photo, container) {
 	img += "/>";
 	img = "<div style='border:4px solid white;width:" + width + ";height:" + height + ";margin : 0 auto;'>" + img + "</div>";
 	img += "<div>" + photo.description + "</div>";
+	img += "<div> uploaded by <strong>" + photo.user.username + "</strong></div>";
 
 	new Effect.Fade(container, {duration : .5, afterFinish : function() {
 		container.update(img);

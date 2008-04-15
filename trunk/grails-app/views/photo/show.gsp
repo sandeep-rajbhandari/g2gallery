@@ -22,13 +22,6 @@
                     <tbody>
 
                         <tr class="prop">
-                            <td valign="top" class="name">Name:</td>
-
-                            <td valign="top" class="value">${photo.name}</td>
-
-                        </tr>
-
-                        <tr class="prop">
                             <td valign="top" class="name">Description:</td>
 
                             <td valign="top" class="value">${photo.description}</td>
@@ -44,7 +37,7 @@
 
                     	<tr class="prop">
                     		<td valign="top" class="name">
-                    			<a href="${createLink(action : 'showPhoto', params : [url : photo.url])}">
+                    			<a href="${createLink(action : 'showPhoto', id : photo.id)}">
                     				<g:showPhoto photo="${photo}" width="100" height="100"/>
                     			</a>
                     		</td>

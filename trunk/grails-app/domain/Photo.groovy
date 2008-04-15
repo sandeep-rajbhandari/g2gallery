@@ -11,7 +11,7 @@ class Photo {
 
     private transient byte[] streamBytes
 
-	PhotoIOService photoIOService // injected
+	transient def photoIOService // injected
 
 	// static belongsTo = Album
 	Album album
@@ -26,17 +26,30 @@ class Photo {
 	}
 
     def afterInsert = {
+		internalAfterInsert()
+    }
+
+	def internalAfterInsert() {
+		println 'afterInsert ' + photoIOService
+		println 'afterInsert ' + photoIOService.dump()
+
 		if (!this.hasErrors()) {
-			this.photoIOService.save(
-        		new ByteArrayInputStream(this.streamBytes), this.id)
+			photoIOService.save(
+        		new ByteArrayInputStream(this.streamBytes), this.fileName)
 		} else {
 			this.errors.allErrors.each {println it}
 		}
+	}
+
+    def afterDelete = {
+		this.streamBytes = null
+        this.photoIOService.delete(fileName)
     }
 
-    def beforeDelete = {
-        this.photoIOService.delete(this.id)
-    }
+	def getFileName() {
+    	println 'getFileName ' + photoIOService
+		"${user.username}_$id"
+	}
 
 	// il faut que le getter ait la même signature que le setter
 	// def getPhotoStream est traduit en public Object getPhotoStream
@@ -44,8 +57,12 @@ class Photo {
     public InputStream getPhotoStream() {
         //def start = System.currentTimeMillis()
 
+        println 'getPhotoStream1 ' + photoIOService
+		println 'getPhotoStream2 ' + photoIOService.dump()
+		Thread.dumpStack()
+
         if (!this.@streamBytes) {
-            this.@streamBytes = asBytes(photoIOService.load(this.id))
+            this.@streamBytes = asBytes(photoIOService.load(fileName))
         }
         //println "load ${streamBytes.length} file ${url} took " + (System.currentTimeMillis() - start)
 

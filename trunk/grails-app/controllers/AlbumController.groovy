@@ -8,7 +8,7 @@ class AlbumController {
 
     def list = {
         if(!params.max) params.max = 10
-        [ albumList: Album.( params ) ]
+        [ albumList: Album.list( params ) ]
     }
 
     def show = {
