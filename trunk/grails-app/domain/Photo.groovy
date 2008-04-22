@@ -9,6 +9,8 @@ class Photo {
 
     int size
 
+    String visible = 'public'
+
     private transient byte[] streamBytes
 
 	transient def photoIOService // injected
@@ -23,15 +25,12 @@ class Photo {
 	static constraints = {
 		description(nullable : true, blank : true)
 		album(nullable : true)
+		visible(inList : ['public', 'private'])
 	}
 
     def afterInsert = {
-		internalAfterInsert()
-    }
-
-	def internalAfterInsert() {
-		println 'afterInsert ' + photoIOService
-		println 'afterInsert ' + photoIOService.dump()
+		//		println 'afterInsert ' + photoIOService
+		//println 'afterInsert ' + photoIOService.dump()
 
 		if (!this.hasErrors()) {
 			photoIOService.save(
@@ -39,7 +38,7 @@ class Photo {
 		} else {
 			this.errors.allErrors.each {println it}
 		}
-	}
+    }
 
     def afterDelete = {
 		this.streamBytes = null
@@ -47,19 +46,20 @@ class Photo {
     }
 
 	def getFileName() {
-    	println 'getFileName ' + photoIOService
+    	//println 'getFileName ' + photoIOService
 		"${user.username}_$id"
 	}
 
 	// il faut que le getter ait la même signature que le setter
 	// def getPhotoStream est traduit en public Object getPhotoStream
 	// on ne peut plus utiliser obj.photoStream =
+	// BUG : les méthodes getter sont appelées dans la création de l'objet
     public InputStream getPhotoStream() {
         //def start = System.currentTimeMillis()
 
-        println 'getPhotoStream1 ' + photoIOService
-		println 'getPhotoStream2 ' + photoIOService.dump()
-		Thread.dumpStack()
+        //println 'getPhotoStream1 ' + photoIOService
+		//println 'getPhotoStream2 ' + photoIOService.dump()
+		//Thread.dumpStack()
 
         if (!this.@streamBytes) {
             this.@streamBytes = asBytes(photoIOService.load(fileName))

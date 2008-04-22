@@ -27,10 +27,15 @@ class BootStrap {
 
         userRole.addToPeople(user)
 
+        // url doit être en minuscule
         new Requestmap(url:"/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
         new Requestmap(url:"/login/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
         new Requestmap(url:"/album/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED,ROLE_USER,ROLE_ADMIN").save()
         new Requestmap(url:"/photo/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED,ROLE_USER,ROLE_ADMIN").save()
+        new Requestmap(url:"/photo/listofuser",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
+        new Requestmap(url:"/photo/show2/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
+        new Requestmap(url:"/photo/showphoto/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
+        new Requestmap(url:"/photo/show",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
 
         new Requestmap(url:"/ftpconfig/**",configAttribute:"ROLE_ADMIN").save()
         new Requestmap(url:"/user/**",configAttribute:"ROLE_ADMIN").save()
@@ -48,8 +53,8 @@ class BootStrap {
      }
 
 	def createPhoto = {file, owner ->
-        //println file
-        //Photo.withTransaction {tx ->
+        // bug if not withTransaction
+        Photo.withTransaction {tx ->
 	        def photo = new Photo(user : owner, description: file.name)
 	        photo.photoStream = file.newInputStream()
 
@@ -58,6 +63,6 @@ class BootStrap {
 	        if(! (photo.width != 0 && photo.height != 0)) {
 	        	tx.setRollbackOnly()
 	        }
-        //}
+        }
     }
 }
