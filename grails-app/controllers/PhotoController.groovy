@@ -1,21 +1,35 @@
-import grails.converters.deep.JSON
+// import grails.converters.deep.JSON does not work
+import grails.converters.JSON
 import UserContextHolder as UCH
 
 class PhotoController {
 
-    def index = { redirect(action:list,params:params) }
+	def authenticateService
+
+	def currentUser = {->
+		authenticateService.userDomain()
+	}
+
+    def index = { redirect(action:myPhotos,params:params) }
+	def list = { redirect(action:myPhotos,params:params) }
 
     // the delete, save and update actions only accept POST requests
     def allowedMethods = [delete:'POST', save:'POST', update:'POST']
 
-    def list = {
-        if(!params.max) params.max = 10
-        [ photoList: Photo.findAllByUser(UCH.currentUser(), params ) ]
-    }
+	def myPhotos = {
+		if(!params.max) params.max = 10
 
-    def list2 =  {
-        list()
-    }
+		render(view : 'list', model : [ photoList: Photo.findAllByUser(currentUser(), params ) ])
+	}
+
+	def listOfUser = {
+		if(!params.max) params.max = 10
+
+		def user = params.userId ? User.get(params.userId) : User.findByUsername(params.username)
+		params.visible = 'public'
+
+		render(view : 'list', model : [ photoList: Photo.findAllByUser(user, params ) ])
+	}
 
     def doWithSecurityCheck = {photo, closure ->
     	if (UCH.currentUser() != photo.user) {
@@ -27,9 +41,9 @@ class PhotoController {
     }
 
     def show = {
-        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
+        def photo = Photo.get( params.id )
 
-        if(!photo) {
+        if(!photo || (photo.visible == 'private' && photo.user != currentUser())) {
             flash.message = "Photo not found with id ${params.id}"
             redirect(action:list)
         }
@@ -41,20 +55,26 @@ class PhotoController {
     }
 
     def showPhoto = {
-    	def photo = Photo.findByIdAndUser(params.id, UCH.currentUser())
+    	def photo = Photo.get(params.id)
 
-        def inputStream =  photo.photoStream
-        response.outputStream << inputStream
-        inputStream.close()
-        response.outputStream.close()
-        return null
+    	if(!photo || (photo.visible == 'private' && photo.user != currentUser())) {
+    		flash.message = "Photo not found with id ${params.id}"
+    	    render ('photo not found')
+    	} else {
+	        def inputStream =  photo.photoStream
+	        response.outputStream << inputStream
+	        inputStream.close()
+	        response.outputStream.close()
+	        return null
+    	}
     }
 
     def delete = {
-        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
+        def photo = Photo.findByIdAndUser( params.id, currentUser() )
         if(photo) {
-        	photo.delete()
-
+        	Photo.withTransaction {
+        		photo.delete()
+        	}
             flash.message = "Photo ${params.id} deleted"
             redirect(action:list)
         }
@@ -65,7 +85,7 @@ class PhotoController {
     }
 
     def edit = {
-        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
+        def photo = Photo.findByIdAndUser( params.id, currentUser() )
 
         if(!photo) {
             flash.message = "Photo not found with id ${params.id}"
@@ -77,19 +97,21 @@ class PhotoController {
     }
 
     def update = {
-        def photo = Photo.findByIdAndUser( params.id, UCH.currentUser() )
+        def photo = Photo.findByIdAndUser( params.id, currentUser() )
         if(photo) {
         	if (params['album.id'] == '-1') photo.album = null
 
             photo.properties = params
 
-            if(!photo.hasErrors() && photo.save()) {
-                flash.message = "Photo ${params.id} updated"
-                redirect(action:show,id:photo.id)
-            }
-            else {
-                render(view:'edit',model:[photo:photo])
-            }
+            Photo.withTransaction {
+	            if(!photo.hasErrors() && photo.save()) {
+	                flash.message = "Photo ${params.id} updated"
+	                redirect(action:show,id:photo.id)
+	            }
+	            else {
+	                render(view:'edit',model:[photo:photo])
+	            }
+        	}
         }
         else {
             flash.message = "Photo not found with id ${params.id}"
@@ -107,11 +129,12 @@ class PhotoController {
     }
 
     def save = {
-        def photo = new Photo(user : UCH.currentUser())
+        def photo = new Photo(user : currentUser())
     	photo.properties = params
 
     	photo.photoStream = request.getFile('url').inputStream
 
+    	Photo.withTransaction {
 	        if(!photo.hasErrors() && photo.save(flush : true)) {
 	            flash.message = "Photo ${photo.id} created"
 	            redirect(action:show,id:photo.id)
@@ -119,6 +142,6 @@ class PhotoController {
 	        else {
 	            render(view:'create',model:[photo:photo])
 	        }
-
+        }
     }
 }

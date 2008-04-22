@@ -11,4 +11,8 @@ class Requestmap {
 		url(blank:false,unique:true)
 		configAttribute(blank:false)
 	}
+
+	String toString() {
+		"Requestmap[url:$url,configAttribute:$configAttribute]"
+	}
 }
