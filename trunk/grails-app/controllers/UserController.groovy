@@ -1,3 +1,5 @@
+import org.grails.plugins.springsecurity.service.AuthenticateService
+
 /**
  * UserController.groovy 
  * Actions over User objects.

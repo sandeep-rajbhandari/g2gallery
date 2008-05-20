@@ -53,7 +53,7 @@ width: 120px;
 				<div class="login_message">${flash.message}</div>
 			</g:if>
 			<div class="fheader">Please Login..</div>
-			<form action="../j_acegi_security_check" method="POST" id="loginForm" class="cssform">
+			<form action="../j_spring_security_check" method="POST" id="loginForm" class="cssform">
 				<p>
 					<label for="j_username">Login ID</label>
 					<input type='text' class="text_" name='j_username' value='' />
@@ -64,7 +64,7 @@ width: 120px;
 				</p>
 				<p>
 					<label for="j_password">Remember me</label>
-					<input type="checkbox" class="chk" name="_acegi_security_remember_me">
+					<input type="checkbox" class="chk" name="_spring_security_remember_me">
 				</p>
 				<p>
 					<input type="submit" value="Login" />

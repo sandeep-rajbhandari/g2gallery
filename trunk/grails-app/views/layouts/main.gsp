@@ -25,7 +25,7 @@
 
         <g:isNotLoggedIn>
 	        <div style="position: absolute;right: 0;">
-	        	<form action="../j_acegi_security_check" method="POST" id="loginForm" class="cssform">
+	        	<form action="j_spring_security_check" method="POST" id="loginForm" class="cssform">
 					<p>
 						<label for="j_username" style="width: 100px;float: left;">Login</label>
 						<input type='text' class="text_" name='j_username' value='' />
@@ -36,7 +36,7 @@
 					</p>
 					<p>
 						<label for="j_password" style="width: 100px;float: left;">Remember me</label>
-						<input type="checkbox" class="chk" name="_acegi_security_remember_me">
+						<input type="checkbox" class="chk" name="_spring_security_remember_me">
 						<input type="submit" value="Login" />
 					</p>
 				</form>

@@ -9,6 +9,11 @@
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="test/integration"/>
 	<classpathentry kind="src" path="test/unit"/>
+	<classpathentry kind="src" path="plugins/acegi-0.3/grails-app/controllers"/>
+	<classpathentry kind="src" path="plugins/acegi-0.3/grails-app/services"/>
+	<classpathentry kind="src" path="plugins/acegi-0.3/grails-app/taglib"/>
+	<classpathentry kind="src" path="plugins/acegi-0.3/src/groovy"/>
+	<classpathentry kind="src" path="plugins/acegi-0.3/src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="GRAILS_HOME/ant/lib/ant.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/lib/ant-junit.jar"/>
@@ -81,5 +86,13 @@
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-test-1.0.2.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-web-1.0.2.jar"/>
 	<classpathentry kind="var" path="GRAILS_HOME/dist/grails-webflow-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net-1.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/mail-1.4.jar"/>
+	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-security-core-2.0.0.jar"/>
+	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-security-core-tiger-2.0.0.jar"/>
+	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-security-openid-2.0.0.jar"/>
+	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-ldap-1.2.1.jar"/>
+	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-ldap-tiger-1.2.1.jar"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>
