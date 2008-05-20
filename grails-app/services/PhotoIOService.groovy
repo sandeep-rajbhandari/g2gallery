@@ -6,7 +6,7 @@ class PhotoIOService {
 
     FtpService ftpService
 
-    boolean useFtp = true
+    boolean useFtp = false
 
     String baseDir = ServletContextHolder.servletContext?.getRealPath('/_photos')
 

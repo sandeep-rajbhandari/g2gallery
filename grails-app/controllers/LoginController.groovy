@@ -1,3 +1,4 @@
+import org.grails.plugins.springsecurity.service.AuthenticateService
 
 /**
  * Login Controller (Example)
@@ -58,11 +59,11 @@ class LoginController {
    * login failed
    */
   def authfail = {
-    def username = session["ACEGI_SECURITY_LAST_USERNAME"]
+    def username = session["SPRING_SECURITY_LAST_USERNAME"]
     def msg=""
-    if(session["ACEGI_SECURITY_LAST_EXCEPTION"]){
-      def information = session["ACEGI_SECURITY_LAST_EXCEPTION"]
-      if(information instanceof org.acegisecurity.DisabledException){
+    if(session["SPRING_SECURITY_LAST_EXCEPTION"]){
+      def information = session["SPRING_SECURITY_LAST_EXCEPTION"]
+      if(information instanceof org.springframework.security.DisabledException){
         msg="[$username] is disabled."
       }else{
         msg="[$username] wrong username/password."
@@ -70,14 +71,15 @@ class LoginController {
     }
 
     //is ajax access?
-    def cnf = authenticateService.getAcegiConfig()
+    /*def cnf = authenticateService.getAcegiConfig()
     def ajaxHeader = cnf.acegi.ajaxHeader
     def AJAX_HEADER="${ajaxHeader}"
     boolean isAjax=false;
     if(session["ACEGI_SAVED_REQUEST_KEY"]){
       def itr =  session["ACEGI_SAVED_REQUEST_KEY"].getHeaderValues(AJAX_HEADER)
       if(itr.hasNext()) isAjax=true
-    }
+    }*/
+    boolean isAjax = authenticateService.isAjax(request)
 
     if(isAjax){
       render("{error:'${msg}'}")

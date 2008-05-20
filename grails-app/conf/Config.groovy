@@ -76,4 +76,4 @@ log4j {
 
 
 
-log4j.logger.org.acegisecurity="error"
+//log4j.logger.org.springframework.security="error"

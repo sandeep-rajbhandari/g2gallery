@@ -1,3 +1,5 @@
+import org.grails.plugins.springsecurity.service.AuthenticateService
+
 /**
  * RegisterController.groovy 
  * Actions over User object.
@@ -112,9 +114,13 @@ class RegisterController {
     def person = new User()
     person.properties = params
     
-    def cnf = authenticateService.getAcegiConfig()
-    def defaultRole = cnf.acegi.defaultRole
-    def useMail = cnf.acegi.useMail
+    //def cnf = authenticateService.getAcegiConfig()
+    //def defaultRole = cnf.acegi.defaultRole
+    //def useMail = cnf.acegi.useMail
+    def config = authenticateService.securityConfig
+    def defaultRole = config.security.defaultRole
+    def useMail = config.security.useMail
+    
     def role = Role.findByAuthority(defaultRole)
     if(!role){
       person.passwd = ""
@@ -158,7 +164,7 @@ class RegisterController {
 
           person.save(flush:true)
           def parMap =['j_username':person.username,'j_password':params.passwd]
-          redirect(controller:'login',action:'../j_acegi_security_check',params:parMap)
+          redirect(controller:'login',action:'../j_spring_security_check',params:parMap)
         }else {
           person.passwd = ""
           render(view: "index", model: [person: person])

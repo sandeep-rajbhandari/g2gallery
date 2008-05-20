@@ -1,5 +1,5 @@
-acegi {
-  loadAcegi=true
+security {
+  active=true
 
   algorithm="MD5" 
   //use Base64 text ( true or false )

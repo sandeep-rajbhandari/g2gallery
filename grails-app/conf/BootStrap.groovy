@@ -1,4 +1,5 @@
 import javax.imageio.*
+import org.grails.plugins.springsecurity.service.AuthenticateService
 
 class BootStrap {
 	AuthenticateService authenticateService
