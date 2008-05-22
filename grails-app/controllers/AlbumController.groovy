@@ -1,5 +1,5 @@
 
-class AlbumController {
+class AlbumController extends BaseSecurityController {
 
     def index = { redirect(action:list,params:params) }
 
@@ -72,6 +72,7 @@ class AlbumController {
 
     def save = {
         def album = new Album(params)
+        album.user = currentUser()
         if(!album.hasErrors() && album.save()) {
             flash.message = "Album ${album.id} created"
             redirect(action:show,id:album.id)

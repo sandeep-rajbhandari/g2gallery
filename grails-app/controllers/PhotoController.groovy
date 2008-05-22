@@ -1,14 +1,7 @@
 // import grails.converters.deep.JSON does not work
 import grails.converters.JSON
-import UserContextHolder as UCH
 
-class PhotoController {
-
-	def authenticateService
-
-	def currentUser = {->
-		authenticateService.userDomain()
-	}
+class PhotoController extends BaseSecurityController {
 
     def index = { redirect(action:myPhotos,params:params) }
 	def list = { redirect(action:myPhotos,params:params) }
@@ -32,7 +25,7 @@ class PhotoController {
 	}
 
     def doWithSecurityCheck = {photo, closure ->
-    	if (UCH.currentUser() != photo.user) {
+    	if (currentUser() != photo.user) {
     		flash.message = "Operation failed"
     		redirect (action : list)
     	} else {

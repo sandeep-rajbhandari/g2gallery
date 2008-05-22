@@ -33,31 +33,22 @@
 				new Effect.Appear(elem, {duration:.5});
 			}
 
-        	new Event.observe(window, 'load', initPaginateButtons);
         	new Event.observe(window, 'load', init);
+        	new Event.observe(window, 'load', initPaginateButtons);
         </g:javascript>
     </head>
 
     <body>
         <div class="nav" id="menuDiv">
         	<div style="float: left;">
-            <span class="menuButton"><a class="home" href="${createLinkTo(dir:'')}">Home</a></span>
-            <g:isLoggedIn>
-            	<span class="menuButton"><g:link class="create" action="create">New Photo</g:link></span>
-            </g:isLoggedIn>
-            <span class="menuButton"><a href="javascript:void(photoViewer.show(0))">Slide Show</a></span>
+	            <span class="menuButton"><a class="home" href="${createLinkTo(dir:'')}">Home</a></span>
+	            <g:isLoggedIn>
+	            	<span class="menuButton"><g:link class="create" action="create">New Photo</g:link></span>
+	            </g:isLoggedIn>
+	            <span class="menuButton"><a href="javascript:void(photoViewer.show(0))">Slide Show</a></span>
 			</div>
 
-			<div style="float: right;">
-			<span class="menuButton" style="color: black;font-weight: bold;">
-				<g:loggedInUserInfo field="userRealName">Guest User</g:loggedInUserInfo>
-			</span>
-			<g:isLoggedIn>
-				<span class="menuButton"><g:link controller="logout">( Logout )</g:link></span>
-			</g:isLoggedIn>
-			</div>
-
-			<div style="clear: both;"></div>
+			<g:render template="/shared/userLoggedOn"/>
         </div>
 
         <div class="" id="content">
@@ -96,7 +87,7 @@
             </div>
 
             <div id="photoShowDiv">
-                <div id="photoDiv"></div>
+                <div id="photoDiv">aaa</div>
             </div>
         </div>
 

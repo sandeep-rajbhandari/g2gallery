@@ -19,6 +19,7 @@
         <g:javascript library="gallery" />
     </head>
     <body>
+    	<div id="header">
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="Spinner" />
         </div>
@@ -44,7 +45,7 @@
         </g:isNotLoggedIn>
 
 		<div><img src="${createLinkTo(dir:'images',file:'grails_logo.jpg')}" alt="Grails" /></div>
-
+		</div>
         <g:layoutBody />
 
         <div id="footer">

@@ -32,13 +32,13 @@ body {
 }
 
 #photoDiv {
-	float: left;
+	//float: left;
 	margin-left: 10px;
-	height: 590px;
+	//height: 590px;
 	width : 75%;
 	text-align: center;
 }
 
 #photoShowDiv {
-
+	margin-left: 320px;
 }
