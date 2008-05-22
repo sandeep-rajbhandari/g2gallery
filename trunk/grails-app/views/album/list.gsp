@@ -11,9 +11,12 @@
         <g:javascript src="prototip.js"/>
     </head>
     <body>
-        <div class="nav">
+        <div class="nav" id="menuDiv">
+        	<div style="float: left;">
             <span class="menuButton"><a class="home" href="${createLinkTo(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="create" action="create">New Album</g:link></span>
+            </div>
+            <g:render template="/shared/userLoggedOn"/>
         </div>
         <div class="body">
             <h1>Album List</h1>

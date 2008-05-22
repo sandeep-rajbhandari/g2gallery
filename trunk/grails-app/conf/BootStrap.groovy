@@ -43,7 +43,7 @@ class BootStrap {
         new Requestmap(url:"/role/**",configAttribute:"ROLE_ADMIN").save()
         new Requestmap(url:"/requestmap/**",configAttribute:"ROLE_ADMIN").save()
 
-        new File(System.getProperty('user.home') + '/image').listFiles().each {file ->
+        new File(System.getProperty('user.home') + '/Mes documents/Mes images').listFiles().each {file ->
          		if (file.isFile())
          			createPhoto(file, trungsi)
 

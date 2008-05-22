@@ -25,7 +25,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.ui.logout.LogoutFilter;
 import org.springframework.security.ui.logout.LogoutHandler;
-import org.springframework.security.util.RedirectUtils;
+//import org.springframework.security.util.RedirectUtils;
 
 /**
  * Configures a <code>LogoutFilter</code> given a list of <code>LogoutHandler</code>s.
@@ -75,7 +75,7 @@ public class LogoutFilterFactoryBean implements FactoryBean, InitializingBean {
 					final HttpServletRequest request,
 					final HttpServletResponse response,
 					final String url) throws IOException {
-				RedirectUtils.sendRedirect(request, response, url, false);
+				RedirectUtils.sendRedirect(request, response, url);
 			}
 		};
 	}

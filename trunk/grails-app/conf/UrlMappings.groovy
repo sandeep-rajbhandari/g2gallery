@@ -6,5 +6,9 @@ class UrlMappings {
 		  }
 	  }
 	  "500"(view:'/error')
+	  "/"{
+		  controller = 'album'
+		  action = 'list'
+	  }
 	}
 }

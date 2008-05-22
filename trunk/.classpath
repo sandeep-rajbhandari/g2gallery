@@ -94,5 +94,6 @@
 	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-security-openid-2.0.0.jar"/>
 	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-ldap-1.2.1.jar"/>
 	<classpathentry kind="lib" path="plugins/acegi-0.3/lib/spring-ldap-tiger-1.2.1.jar"/>
+	<classpathentry kind="lib" path="bin-groovy"/>
 	<classpathentry kind="output" path="web-app/WEB-INF/classes"/>
 </classpath>
