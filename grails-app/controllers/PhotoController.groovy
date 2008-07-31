@@ -1,8 +1,11 @@
 // import grails.converters.deep.JSON does not work
 import grails.converters.JSON
+import grails.converters.XML
 
 class PhotoController extends BaseSecurityController {
 
+	def photoService
+	
     def index = { redirect(action:myPhotos,params:params) }
 	def list = { redirect(action:myPhotos,params:params) }
 
@@ -12,16 +15,16 @@ class PhotoController extends BaseSecurityController {
 	def myPhotos = {
 		if(!params.max) params.max = 10
 
-		render(view : 'list', model : [ photoList: Photo.findAllByUser(currentUser(), params ) ])
+		render(view : 'list', model : [ photoList: photoService.findAllByUser(currentUser(), params ) ])
 	}
 
 	def listOfUser = {
 		if(!params.max) params.max = 10
 
 		def user = params.userId ? User.get(params.userId) : User.findByUsername(params.username)
-		params.visible = 'public'
+		//params.visible = 'public'
 
-		render(view : 'list', model : [ photoList: Photo.findAllByUser(user, params ) ])
+		render(view : 'list', model : [ photoList: photoService.findAllByUser(user, params ) ])
 	}
 
     def doWithSecurityCheck = {photo, closure ->
@@ -34,9 +37,9 @@ class PhotoController extends BaseSecurityController {
     }
 
     def show = {
-        def photo = Photo.get( params.id )
+        def photo = photoService.get( params.id )
 
-        if(!photo || (photo.visible == 'private' && photo.user != currentUser())) {
+        if(!photo) {
             flash.message = "Photo not found with id ${params.id}"
             redirect(action:list)
         }
@@ -47,10 +50,17 @@ class PhotoController extends BaseSecurityController {
     	render(show() as JSON)
     }
 
+	def show3 = {
+		def result = show().photo as XML
+		println result
+		
+		render(result)
+	}
+	
     def showPhoto = {
-    	def photo = Photo.get(params.id)
+    	def photo = photoService.get(params.id)
 
-    	if(!photo || (photo.visible == 'private' && photo.user != currentUser())) {
+    	if(!photo) {
     		flash.message = "Photo not found with id ${params.id}"
     	    render ('photo not found')
     	} else {
@@ -63,11 +73,11 @@ class PhotoController extends BaseSecurityController {
     }
 
     def delete = {
-        def photo = Photo.findByIdAndUser( params.id, currentUser() )
+        def photo = photoService.findBy(id : params.id, user : currentUser() )
         if(photo) {
-        	Photo.withTransaction {
-        		photo.delete()
-        	}
+        	//Photo.withTransaction {
+        		photoService.delete(photo)
+        	//}
             flash.message = "Photo ${params.id} deleted"
             redirect(action:list)
         }
@@ -78,7 +88,7 @@ class PhotoController extends BaseSecurityController {
     }
 
     def edit = {
-        def photo = Photo.findByIdAndUser( params.id, currentUser() )
+        def photo = photoService.findBy(id : params.id, user : currentUser() )
 
         if(!photo) {
             flash.message = "Photo not found with id ${params.id}"
@@ -90,21 +100,21 @@ class PhotoController extends BaseSecurityController {
     }
 
     def update = {
-        def photo = Photo.findByIdAndUser( params.id, currentUser() )
+        def photo = photoService.findBy(id : params.id, user : currentUser() )
         if(photo) {
         	if (params['album.id'] == '-1') photo.album = null
 
             photo.properties = params
 
-            Photo.withTransaction {
-	            if(!photo.hasErrors() && photo.save()) {
+            //Photo.withTransaction {
+	            if(!photo.hasErrors() && photoService.save(photo)) {
 	                flash.message = "Photo ${params.id} updated"
 	                redirect(action:show,id:photo.id)
 	            }
 	            else {
 	                render(view:'edit',model:[photo:photo])
 	            }
-        	}
+        	//}
         }
         else {
             flash.message = "Photo not found with id ${params.id}"
@@ -127,14 +137,14 @@ class PhotoController extends BaseSecurityController {
 
     	photo.photoStream = request.getFile('url').inputStream
 
-    	Photo.withTransaction {
-	        if(!photo.hasErrors() && photo.save(flush : true)) {
+    	//Photo.withTransaction {
+	        if(!photo.hasErrors() && photoService.save(photo)) {
 	            flash.message = "Photo ${photo.id} created"
 	            redirect(action:show,id:photo.id)
 	        }
 	        else {
 	            render(view:'create',model:[photo:photo])
 	        }
-        }
+        //}
     }
 }

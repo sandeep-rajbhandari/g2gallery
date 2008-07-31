@@ -14,10 +14,4 @@ class AlbumControllerTests extends GroovyTestCase {
 		
 		assert result.albumList.isEmpty()
 	}
-	
-	void testCreatNewAlbumWithoutAuthentication() {
-		// no authentication
-		controller.create()
-		assertEquals '/logon', controller.response.redirectedUrl
-	}
 }

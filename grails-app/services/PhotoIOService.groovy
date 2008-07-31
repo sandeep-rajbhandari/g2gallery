@@ -8,13 +8,18 @@ class PhotoIOService {
 
     boolean useFtp = false
 
-    String baseDir = ServletContextHolder.servletContext?.getRealPath('/_photos')
-
+    String baseDir = System.properties['user.home'] + '/_photos'
+    	
+    PhotoIOService() {
+    	def dir = ServletContextHolder.servletContext?.getRealPath('/_photos')
+    	if (dir) baseDir = dir
+    }
+    
     def save(inputStream, fileName) {
     	if (useFtp) {
     		ftpService.save(inputStream, fileName.toString())
     	} else {
-    		FileOutputStream outputStream = new FileOutputStream(newFile(fileName.toString()))
+    		def outputStream = new FileOutputStream(newFile(fileName.toString()))
     		outputStream << inputStream
 
             outputStream.close()
@@ -40,9 +45,10 @@ class PhotoIOService {
     }
     def load(fileName) {
     	if (useFtp) {
-    		return ftpService.load(fileName.toString())
+    		return ftpService.load(fileName)
     	} else {
-    		return newFile(fileName.toString()).newInputStream()
+    		def file = newFile(fileName)
+    		return file.exists() ? file.newInputStream() : null
     	}
     }
 

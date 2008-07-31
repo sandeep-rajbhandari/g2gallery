@@ -1,54 +1,55 @@
-import UserContextHolder as UCH
 
 class PhotoControllerTests extends GroovyTestCase {
 
 	def authenticateService
 
+	def photoIOService
+
+	def photoService
+	
 	void setUp() {
-		def role = new Role(authority : 'ROLE_ADMIN', description : 'administrater')
-		role.save()
-
-		def user1 = new User(username : 'user1', userRealName : 'tran duc trung',
-        		passwd : authenticateService.passwordEncoder('trungsi'),
-        		enabled : true, email : 'ductrung.tran@gmail.com',
-        		email_show : true, description : 'admin')
-		user1.save()
-		role.addToPeople(user1)
-
-		def user2 = new User(username : 'user2', userRealName : 'tran duc trung',
-        		passwd : authenticateService.passwordEncoder('trungsi'),
-        		enabled : true, email : 'ductrung.tran@gmail.com',
-        		email_show : true, description : 'admin')
-		user2.save()
-		role.addToPeople(user2)
-
-		new Photo(user : user1, description : 'description1',
-				photoStream : new ByteArrayInputStream('ceci est un test'.bytes)).save()
-		new Photo(user : user1, description : 'description2',
-				photoStream : new ByteArrayInputStream('ceci est un test'.bytes)).save()
-
-		new Photo(user : user2, description : 'description3',
-				photoStream : new ByteArrayInputStream('ceci est un test'.bytes)).save()
-		new Photo(user : user2, description : 'description4',
-				photoStream : new ByteArrayInputStream('ceci est un test'.bytes)).save()
-		new Photo(user : user2, description : 'description5',
-				photoStream : new ByteArrayInputStream('ceci est un test'.bytes)).save()
-		new Photo(user : user2, description : 'description6',
-				photoStream : new ByteArrayInputStream('ceci est un test'.bytes)).save()
+		//photoIOService.baseDir = System.properties['user.home']
+		
+		new UserFixture(authenticateService : authenticateService).setUp()
+		
+		def user1 = User.findByUsername('user1')
+		def user2 = User.findByUsername('user2')
+		
+		newPhoto(user1, 'description1', 'ceci est un test')
+		newPhoto(user1, 'description2', 'ceci est un test')
+		
+		newPhoto(user2, 'description3', 'ceci est un test')
+		newPhoto(user2, 'description4', 'ceci est un test')
+		newPhoto(user2, 'description5', 'ceci est un test')
+		newPhoto(user2, 'description6', 'ceci est un test')
 	}
 
+	void newPhoto(user, description, content) {
+		def photo = new Photo(user : user, description : description)
+		photo.photoStream = new ByteArrayInputStream(content.bytes)
+		photo.save()
+	}
+	
+	def newPhotoController() {
+		def controller = new PhotoController()
+		controller.photoService = photoService
+		controller
+	}
+	
 	void testListPhotoByCurrentUser() {
-    	def controller = new PhotoController()
-    	UCH.currentUser = {User.findByUsername('user1')}
+    	def controller = newPhotoController()
+    	controller.currentUser = {User.findByUsername('user1')}
 
-    	def photoList = controller.list().photoList
+    	controller.myPhotos()
+    	def photoList = controller.modelAndView?.model?.photoList
     	assertEquals 2, photoList.size()
     	photoList.each {photo ->
     		assertEquals 'user1', photo.user.username
     	}
 
-    	UCH.currentUser = {User.findByUsername('user2')}
-    	photoList = controller.list().photoList
+    	controller.currentUser = {User.findByUsername('user2')}
+    	controller.myPhotos()
+    	photoList =  controller.modelAndView.model.photoList
     	assertEquals 4, photoList.size()
     	photoList.each {photo ->
     		assertEquals 'user2', photo.user.username
@@ -56,8 +57,8 @@ class PhotoControllerTests extends GroovyTestCase {
     }
 
     void testShow() {
-    	def controller = new PhotoController()
-    	UCH.currentUser = {User.findByUsername('user1')}
+    	def controller = newPhotoController()
+    	controller.currentUser = {User.findByUsername('user1')}
     	controller.request.parameters = ['id' : Photo.findByDescription('description1').id.toString()]
 
     	def photo = controller.show().photo
@@ -65,9 +66,12 @@ class PhotoControllerTests extends GroovyTestCase {
     }
 
     void testShowNotFound() {
-    	def controller = new PhotoController()
-    	UCH.currentUser = {User.findByUsername('user1')}
-    	controller.request.parameters = ['id' : Photo.findByDescription('description6').id.toString()]
+    	def controller = newPhotoController()
+    	controller.currentUser = {User.findByUsername('user1')}
+    	def photo = Photo.get(7)
+    	assertNull photo
+    	//assertTrue (photo.user != controller.currentUser())
+    	controller.request.parameters = ['id' : '7']
 
     	controller.show()
     	assertEquals '/photo/list', controller.response.redirectedUrl
