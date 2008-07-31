@@ -9,23 +9,25 @@ class Photo {
 
     int size
 
-    String visible = 'public'
+    //String visible = 'public'
 
     private transient byte[] streamBytes
 
 	transient def photoIOService // injected
 
+	private transient boolean loaded
+	
 	// static belongsTo = Album
 	Album album
 
 	static belongsTo = [user : User]
 
-	static transients = ['photoStream', 'photoIOService']
+	static transients = ['photoStream', 'photoIOService', 'loaded']
 
 	static constraints = {
 		description(nullable : true, blank : true)
 		album(nullable : true)
-		visible(inList : ['public', 'private'])
+		//visible(inList : ['public', 'private'])
 	}
 
     def afterInsert = {
@@ -61,12 +63,13 @@ class Photo {
 		//println 'getPhotoStream2 ' + photoIOService.dump()
 		//Thread.dumpStack()
 
-        if (!this.@streamBytes) {
+        if (!this.loaded) {
             this.@streamBytes = asBytes(photoIOService.load(fileName))
+            this.loaded = true
         }
         //println "load ${streamBytes.length} file ${url} took " + (System.currentTimeMillis() - start)
 
-        new ByteArrayInputStream(this.@streamBytes)
+        return this.streamBytes ? new ByteArrayInputStream(this.streamBytes) : null
     }
 
 	public void setPhotoStream(InputStream stream) {
@@ -79,21 +82,31 @@ class Photo {
         this.size = this.streamBytes.length
     }
 
-    private def asBytes(InputStream stream) {
-        try {
-            def bytesList = []
-            byte[] buffer = new byte[1024]
-            int byteRead
-
-            while ((byteRead = stream.read(buffer)) !=  -1) {
-                bytesList += buffer[0..<byteRead].asList()
-            }
-
-            return bytesList.toArray(new byte[bytesList.size()])
-
-        } finally {
-            stream.close()
-        }
+    private def asBytes(stream) {
+    	if (stream) {
+	        try {
+	            def bytesList = []
+	            byte[] buffer = new byte[1024]
+	            //println "cai cuc cut $buffer"
+	            int byteRead
+	
+	            println stream.class
+	            
+	            while ((byteRead = stream.read(buffer)) !=  -1) {
+	                bytesList += buffer[0..<byteRead].asList()
+	            }
+	
+	            println "bytesList = " + bytesList
+	            return bytesList.toArray(new byte[bytesList.size()])
+	
+	        } catch (Throwable t) {
+	        	t.printStackTrace()
+	        	throw t
+	        } finally {
+	            stream.close()
+	        }
+    	}
+    	return null
     }
 
     String toString() {

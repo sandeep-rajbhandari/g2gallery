@@ -17,9 +17,6 @@ class PhotoIOServiceTests extends GroovyTestCase {
     }
 
     private def assertFileNotExists(String fileName) {
-        try {
-            photoIOService.load fileName
-            fail()
-        } catch (e) {}
+            assertNull photoIOService.load(fileName)
     }
 }

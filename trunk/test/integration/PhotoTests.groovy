@@ -5,11 +5,14 @@ class PhotoTests extends GroovyTestCase {
 
     def authenticateService
 
+    def sessionFactory
+    
     void setUp() {
     	createUser()
         photo = new Photo(user : User.findByUsername('trungsi'),
-        		description: 'description',
-        		photoStream: new ByteArrayInputStream('ceci est un test'.bytes))
+        		description: 'description')
+    	
+        photo.photoStream = new ByteArrayInputStream('ceci est un test'.bytes)
         assert photo
     }
 
@@ -28,22 +31,24 @@ class PhotoTests extends GroovyTestCase {
 
     void tearDown() {
         assert photo.photoIOService
-
+        
+        photo.merge()
         photo.delete(flush : true) // flush = true is important for testing hibernate event
         assertNotExistsPhotoStream()
     }
     void testCreateAndDeletePhoto() {
         photoIOService.baseDir = System.getProperty('user.home') // fake
-
         internalTest()
     }
 
     private def internalTest() {
-
         photo.save(flush : true)
-
+        
+        sessionFactory.currentSession.clear()
+        
         photo = Photo.get(photo.id)
-
+        
+        //assertFalse(photo2.is(photo))
         assertEquals 'description', photo.description
         assertEquals User.findByUsername('trungsi'), photo.user
         def stream = photo.photoStream
@@ -58,12 +63,7 @@ class PhotoTests extends GroovyTestCase {
     }
 
     private def assertNotExistsPhotoStream() {
-        try {
-            photo.photoStream.close()
-            fail()
-        } catch (e) {
-        	e.printStackTrace()
-        }
+        assertNull(photo.photoIOService.load(photo.fileName))
     }
 }
 

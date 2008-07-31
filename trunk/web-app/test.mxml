@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="request.send()">
+	<mx:HTTPService id="request" url="http://localhost:8080/gallery">
+	</mx:HTTPService>
+	
+	<mx:RemoteObject id="ro" destination="photoService">
+		<mx:method name="get" result="returnHandler(event)" fault="mx.controls.Alert.show(event.fault.faultString)"/>
+	</mx:RemoteObject>
+	
+	<mx:Script>
+		<![CDATA[
+		import mx.rpc.events.ResultEvent;
+		private function returnHandler(e:ResultEvent):void {
+			mx.controls.Alert.show(e.result.name);
+			outputText.text = e.result.name;
+		}
+		]]>
+	</mx:Script>
+	
+	<mx:transitions>
+		<mx:Transition id="paymentTransition" fromState="*" toState="Charge">
+			<mx:Parallel targets="{[Name,ChargeNumber,ExpirationDate]}">
+				<mx:Fade duration="600"/>
+				<!--mx:Move xFrom="0" yFrom="0" duration="400"/-->
+			</mx:Parallel>
+		</mx:Transition>
+	</mx:transitions>
+	
+	<mx:Fade duration="2000" alphaFrom="0" alphaTo="1" id="editorFade" target="{chargeButton}"/>
+	
+	<mx:states>
+		<mx:State name="Check">
+			<mx:AddChild position="lastChild">
+				<mx:Label x="165" y="121" text="Routing Number"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:TextInput x="277" y="119"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="165" y="156" text="Account Number"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:TextInput x="277" y="154"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button x="277" y="194" label="Submit"/>
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="Charge">
+			<mx:AddChild position="lastChild">
+				<mx:FormItem name="Name" label="Name" id="Name">
+					<mx:TextInput/>
+				</mx:FormItem>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:FormItem name="ChargeNumber" label=" Charge Number" id="ChargeNumber">
+					<mx:TextInput/>
+				</mx:FormItem>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:FormItem name="ExpirationDate" label="Expiration Date" id="ExpirationDate">
+					<mx:DateField/>
+				</mx:FormItem>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button x="220" y="225" label="Submit" showEffect="{editorFade}" rollOverEffect="{editorFade}" click="editorFade.play([chargeButton])"/>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	<mx:RadioButton x="165" y="35" label="Check" click="currentState = 'Check'"/>
+	<mx:RadioButton x="165" y="65" label="Charge" click="currentState='Charge'" id="chargeButton"/>
+	
+	<mx:TextArea htmlText="{request.lastResult.html.head.title}"/>
+	
+	<mx:Button label="Hello" click="ro.get(1)"/>
+	
+	<mx:TextInput id="outputText"/>
+</mx:Application>
