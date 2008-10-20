@@ -23,7 +23,7 @@
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${createLinkTo(dir:'images',file:'spinner.gif')}" alt="Spinner" />
         </div>
-
+		<%-- 
         <g:isNotLoggedIn>
 	        <div style="position: absolute;right: 0;">
 	        	<form action="j_spring_security_check" method="POST" id="loginForm" class="cssform">
@@ -43,7 +43,7 @@
 				</form>
 	        </div>
         </g:isNotLoggedIn>
-
+		--%>
 		<div><img src="${createLinkTo(dir:'images',file:'grails_logo.jpg')}" alt="Grails" /></div>
 		</div>
         <g:layoutBody />

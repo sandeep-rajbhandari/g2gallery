@@ -1,3 +1,21 @@
+function doLogin() {
+	var form = document.loginForm;
+	var params = form.serialize();
+	alert(params);
+	new Ajax.Request(form.action, {
+		method : 'post',
+		postBody : params,
+		onSuccess : function(response) {
+			var json = response.responseText.evalJSON();
+			if(json.error) {
+				alert(json.error);
+			} else {
+				alert("login successful");
+			}
+		}
+	});
+}
+
 function showPhotoInfos(id) {
 	location.href = CONTEXT_PATH + "/photo/show/" + id;
 }
@@ -13,7 +31,8 @@ function showPhotoInfos2(photoId) {
 		$('iconPhoto' + showedPhotoId).setStyle({borderColor : 'white'});
 	showedPhotoId = photoId;
     $('iconPhoto' + showedPhotoId).setStyle({borderColor : 'red'});
-    var showPhotoUrl = CONTEXT_PATH + "/photo/show2/" + photoId;
+    
+    var showPhotoUrl = CONTEXT_PATH + "/photo/showJSON/" + photoId;
 	new Ajax.Request(showPhotoUrl, {
 		onSuccess : function (transport) {
 			var photoShowDiv = $('photoDiv');
@@ -30,19 +49,21 @@ function photoView(photo, container) {
 					container.getWidth()  - 40 : photo.width;
 	*/
 	
-	var height = $('footer').viewportOffset().top - container.viewportOffset().top - 50;
 	
-	container.setStyle({'height' : height});
 	var img = "<img src='" + CONTEXT_PATH + "/photo/showPhoto/" + photo.id + "' ";
-	img += " height='100%' width='100%'";
+	img += " ";
 	img += "/>";
-	img = "<div style='border:4px solid white;width:100%;height:100%" + ";margin : 0 auto;'>" + img + "</div>";
+	img = "<div style='border:4px solid white;margin : 0 auto;'>" + img + "</div>";
 	img += "<div>" + photo.description + "</div>";
-	img += "<div> uploaded by <strong>" + photo.user.username + "</strong></div>";
 
 	new Effect.Fade(container, {duration : .5, afterFinish : function() {
 		container.update(img);
 		new Effect.Appear(container, {duraciton : .5});
 	}});
 
+}
+
+function showAlbum(albumId) {
+	$('showPhotosForm').elements['album.id'].value = albumId;
+	$('showPhotosForm').submit();
 }

@@ -1,9 +1,21 @@
 <div style="float: right;">
-	<span class="menuButton" style="color: black;font-weight: bold;">
-		<g:loggedInUserInfo field="userRealName">Guest User</g:loggedInUserInfo>
-	</span>
+	
+	<g:loggedInUserInfo field="userRealName">
+		<form name="loginForm" action="/gallery/j_spring_security_check" method="post">
+			<input type="hidden" name="spring-security-redirect" value=""/>
+			<label class="loginLabel">Username</label>
+			<input type="text" class="loginInput" name="j_username" />
+
+			<label class="loginLabel">Password</label>
+			<input type="password" class="loginInput" name="j_password"/>
+
+			<input type="button" value="Login" onclick="doLogin();return false;"/>
+		</form>
+	</g:loggedInUserInfo>
+	
 	<g:isLoggedIn>
-		<span class="menuButton"><g:link controller="logout">( Logout )</g:link></span>
+		<g:link controller="logout">( Logout )</g:link>
 	</g:isLoggedIn>
+
 </div>
 <div style="clear: both;"></div>

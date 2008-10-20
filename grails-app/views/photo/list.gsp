@@ -23,6 +23,15 @@
 	        		photoViewer.add("${createLink(action : 'showPhoto', params : [id : photo.id])}", "${photo.description}");
 	        		new Tip("iconDiv${photo.id}", $("iconDiv${photo.id}Tooltip").innerHTML, {className : 'darkTip', effect : 'appear'});
 	        	</g:each>
+				
+				var offset = $('photoShowContainer').cumulativeOffset();
+				var height = document.documentElement.clientHeight - offset.top;
+				var width = document.documentElement.clientWidth - offset.left;
+
+				$('photoShowContainer').setStyle({
+					height : height + 'px',
+					width : width + 'px'
+				});
         	}
 
 			function initPaginateButtons() {
@@ -86,8 +95,8 @@
 
             </div>
 
-            <div id="photoShowDiv">
-                <div id="photoDiv">aaa</div>
+            <div id="photoShowContainer">
+                <div id="photoDiv"></div>
             </div>
         </div>
 

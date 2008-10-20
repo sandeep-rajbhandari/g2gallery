@@ -32,20 +32,22 @@ class BootStrap {
         new Requestmap(url:"/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
         new Requestmap(url:"/login/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
         new Requestmap(url:"/album/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED,ROLE_USER,ROLE_ADMIN").save()
-        new Requestmap(url:"/photo/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED,ROLE_USER,ROLE_ADMIN").save()
-        new Requestmap(url:"/photo/listofuser",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
-        new Requestmap(url:"/photo/show2/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
-        new Requestmap(url:"/photo/showphoto/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
-        new Requestmap(url:"/photo/show",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
-
+        new Requestmap(url:"/photo/**",configAttribute:"IS_AUTHENTICATED_ANONYMOUSLY").save()
+        
+        new Requestmap(url:"/photo/create/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED").save()
+        new Requestmap(url:"/photo/update/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED").save()
+        new Requestmap(url:"/photo/delete/**",configAttribute:"IS_AUTHENTICATED_REMEMBERED").save()
+        
         new Requestmap(url:"/ftpconfig/**",configAttribute:"ROLE_ADMIN").save()
         new Requestmap(url:"/user/**",configAttribute:"ROLE_ADMIN").save()
         new Requestmap(url:"/role/**",configAttribute:"ROLE_ADMIN").save()
         new Requestmap(url:"/requestmap/**",configAttribute:"ROLE_ADMIN").save()
 
-        new File(System.getProperty('user.home') + '/Mes documents/Mes images').listFiles().each {file ->
+        def album = new Album(name : 'viet nam', description : 'photos du Vietnam', user : trungsi)
+        album.save()
+        new File(System.getProperty('user.home') + '/image').listFiles().each {file ->
          		if (file.isFile())
-         			createPhoto(file, trungsi)
+         			createPhoto(file, trungsi, album)
 
      	 }
      }
@@ -53,17 +55,19 @@ class BootStrap {
      def destroy = {
      }
 
-	def createPhoto = {file, owner ->
+	def createPhoto = {file, owner, album ->
         // bug if not withTransaction
         Photo.withTransaction {tx ->
-	        def photo = new Photo(user : owner, description: file.name)
+	        def photo = new Photo(user : owner, album : album, name : file.name, description: file.name)
 	        photo.photoStream = file.newInputStream()
 
-	        photo.save(flush : true)
+	        if (!photo.save(flush : true)) {
+	        	println "error " + photo.errors.allErrors
+	        }
 
 	        if(! (photo.width != 0 && photo.height != 0)) {
 	        	tx.setRollbackOnly()
-	        }
+	        } 
         }
     }
 }
