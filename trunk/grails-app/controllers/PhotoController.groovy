@@ -7,7 +7,10 @@ class PhotoController extends BaseSecurityController {
 	def photoService
 	
     def index = { redirect(action:myPhotos,params:params) }
-	def list = { redirect(action:myPhotos,params:params) }
+	def list = { 
+		def album = Album.get(params['album.id'])
+		render(view : 'list', model : [ photoList: album.photos ])
+	}
 
     // the delete, save and update actions only accept POST requests
     def allowedMethods = [delete:'POST', save:'POST', update:'POST']
@@ -19,12 +22,9 @@ class PhotoController extends BaseSecurityController {
 	}
 
 	def listOfUser = {
-		if(!params.max) params.max = 10
-
 		def user = params.userId ? User.get(params.userId) : User.findByUsername(params.username)
-		//params.visible = 'public'
 
-		render(view : 'list', model : [ photoList: photoService.findAllByUser(user, params ) ])
+		render(view : 'list', model : [ photoList: photoService.findAllByUser(user, params), albumList : Album.findAllByUser(user, params) ])
 	}
 
     def doWithSecurityCheck = {photo, closure ->
@@ -46,10 +46,11 @@ class PhotoController extends BaseSecurityController {
         else { return [ photo : photo ] }
     }
 
-    def show2 = {
+    def showJSON = {
     	render(show() as JSON)
     }
 
+	
 	def show3 = {
 		def result = show().photo as XML
 		println result
@@ -147,4 +148,25 @@ class PhotoController extends BaseSecurityController {
 	        }
         //}
     }
+	
+	def create_s = {}
+	
+	def save_s = {
+		def photoList = []
+		println request.fileMap
+		request.fileMap.each {name, file ->
+			if (!file.empty) {
+				println "photo $name begin"
+				def photo = new Photo(user : currentUser())
+				photo.photoStream = file.inputStream
+			
+				photoService.save(photo)
+				photoList << photo
+				println "photo $name end"
+			}
+		}
+		
+		println "save_s end"
+		render(view : 'edit_s', model : [photoList : photoList])
+	}
 }
